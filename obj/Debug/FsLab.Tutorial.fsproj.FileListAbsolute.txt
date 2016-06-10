@@ -1,0 +1,1 @@
+c:\Users\KELLERD\Documents\GitHub\FsLabTutorial\obj\Debug\FsLab.Tutorial.fsprojResolveAssemblyReference.cache
