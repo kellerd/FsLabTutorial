@@ -36,15 +36,6 @@ let samples = Person.GetSamples()
 
 samples |> Array.map (fun p -> p.Name.Length + p.Language.Length)
 
-let rawData = models 
-                |> Array.collect (fun m -> m.States 
-                                                |> Array.map (fun s -> m,s)) 
-                                                |> Array.sortBy (fun (_,s) -> s.Date)
-let eventMap = 
-    states 
-    |> Array.collect (fun m -> m.Events) 
-    |> Array.map(fun e -> e.Name, e.To)
-    |> Map.ofArray
 
 models 
 |> Array.groupBy (fun model -> model.Faction,model.CurrentState) 
@@ -68,6 +59,15 @@ models
 
 //Other versions of getting Data
 
+// let rawData = models 
+//                 |> Array.collect (fun m -> m.States 
+//                                                 |> Array.map (fun s -> m,s)) 
+//                                                 |> Array.sortBy (fun (_,s) -> s.Date)
+// let eventMap = 
+//     states 
+//     |> Array.collect (fun m -> m.Events) 
+//     |> Array.map(fun e -> e.Name, e.To)
+//     |> Map.ofArray
 // let defaultData = eventMap |> Map.toArray 
 //                     |> Array.map (fun (_,e) -> 0, e) 
 //                     |> Array.distinct
