@@ -1,1 +1,6 @@
 c:\Users\KELLERD\Documents\GitHub\FsLabTutorial\obj\Debug\FsLabTutorial.fsprojResolveAssemblyReference.cache
+c:\Users\diese\Source\Repos\FsLabTutorial\bin\Debug\FsLab.Tutorial.exe
+c:\Users\diese\Source\Repos\FsLabTutorial\bin\Debug\FSharp.Core.dll
+c:\Users\diese\Source\Repos\FsLabTutorial\bin\Debug\FSharp.Core.xml
+c:\Users\diese\Source\Repos\FsLabTutorial\obj\Debug\FsLabTutorial.fsprojResolveAssemblyReference.cache
+C:\Users\diese\Source\Repos\FsLabTutorial\obj\Debug\FsLabTutorial.fsproj.FsLab.Tutorial.exe.config

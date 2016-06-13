@@ -24,6 +24,13 @@ let eu = wb.Countries.``European Union``.Indicators
 let czschool = series cz.``Gross enrolment ratio, tertiary, both sexes (%)``
 let euschool = series eu.``Gross enrolment ratio, tertiary, both sexes (%)``
 
+
+let canadaStuff = series wb.Countries.Canada.Indicators.``Computer, communications and other services (% of commercial service exports)``
+canadaStuff
+|> Chart.Line
+|> Chart.WithOptions (Options(legend=Legend(position="bottom")))
+|> Chart.WithLabels [wb.Countries.Canada.Indicators.``Computer, communications and other services (% of commercial service exports)``.Description]
+
 // Get 5 years with the largest difference between EU and CZ
 abs (czschool - euschool)
 |> Series.sort

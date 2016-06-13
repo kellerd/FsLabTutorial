@@ -1,3 +1,2 @@
 source https://nuget.org/api/v2
-
-nuget FsLab
+nuget FsLab 0.2.7
