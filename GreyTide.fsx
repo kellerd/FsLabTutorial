@@ -5,11 +5,12 @@ open FSharp.Data
 open XPlot.GoogleCharts
 open XPlot.GoogleCharts.Deedle
 
+
+
 type States = JsonProvider<"""http://greytide.azurewebsites.net/tide/v1/States""">
 type Models = JsonProvider<"""http://greytide.azurewebsites.net/tide/v1/Models/""">
-Models.GetSamples().[0]
-let states = States.Load("""http://greytide.azurewebsites.net/tide/States/v1/Models/""")
-let models = Models.Load("""http://greytide.azurewebsites.net/tide/Models/v1/Models/""")
+let states = States.Load("""http://greytide.azurewebsites.net/tide/v1/States/""")
+let models = Models.Load("""http://greytide.azurewebsites.net/tide/v1/Models/""")
 //State.Events.StateCollectionId changed
 
 let mapStates = states |> Array.map (fun s -> s.Id, 
@@ -29,13 +30,13 @@ let mapStates = states |> Array.map (fun s -> s.Id,
                                                                                             f.Type,
                                                                                             f.Id,
                                                                                             f.StateId)))
-
+//V1 : int * Guid * string * string * (string * int * string * int * Guid (Option(string) * Option(string) * Option(string) * Option(Guid)) []) []) []
+//V2 : int * Guid * string * string * (string * int * string * int * Guid * string []) []) []
 type Person = JsonProvider<"""[{"name":"Dan", "language":"F#"}]""">
  //                           ,{"name":"Dad"}
 let samples = Person.GetSamples()
 
 samples |> Array.map (fun p -> p.Name.Length + p.Language.Length)
-
 
 models 
 |> Array.groupBy (fun model -> model.Faction,model.CurrentState) 
@@ -47,8 +48,13 @@ models
 |> Chart.WithLegend true 
 
 
+//http://fsprojects.github.io/FSharp.Data.TypeProviders/sqldata.html
+//http://bluemountaincapital.github.io/FSharpRProvider/mac-and-linux.html
+//http://fsprojects.github.io/SQLProvider/
+//http://fsprojects.github.io/FSharp.Data.SqlClient/
+//http://fsprojects.github.io/DynamicsCRMProvider/
 
-//
+
 
 //bug in newer XPLot.Deedle, could do , has to update some references
 // Workaround with convert frame to series

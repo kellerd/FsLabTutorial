@@ -43,3 +43,10 @@ abs (czschool - euschool)
 |> Chart.Line
 |> Chart.WithOptions (Options(legend=Legend(position="bottom")))
 |> Chart.WithLabels ["CZ"; "EU"]
+
+type People = CsvProvider<"Data.csv">
+let people = People.GetSample()
+let first = people.Rows |> Seq.head
+first.Person_ID
+first.Phone
+first.Email
