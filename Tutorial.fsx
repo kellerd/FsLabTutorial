@@ -50,3 +50,11 @@ let first = people.Rows |> Seq.head
 first.Person_ID
 first.Phone
 first.Email
+
+type Languages = HtmlProvider<"https://en.wikipedia.org/wiki/Comparison_of_programming_languages">
+let page = Languages.Load("https://en.wikipedia.org/wiki/Comparison_of_programming_languages")
+let data = page.Tables.``General comparison``.Rows 
+            |> Array.filter(fun h -> h.``Functional`` = "Yes")
+let result = 
+    [for r in data ->
+        r.Language, r.``Intended use``, r.Generic, r.``Object-oriented``]

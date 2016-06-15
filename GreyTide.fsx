@@ -78,16 +78,17 @@ let results =
                             let dateValueSeries = 
                                 series 
                                 |> Series.groupBy (fun _ (name,(date,points)) -> date) 
-                                |> Series.map (fun date series -> series.Values |> Seq.fold (fun (date,total) (_,(_,newvalue)) -> date,total+(newvalue)) (date,0)) 
+                                |> Series.map (fun date series -> series.Values 
+                                                                    |> Seq.fold (fun (date,total) (_,(_,newvalue)) -> date,total+(newvalue)) (date,0)) 
                                 |> Series.sortByKey
                             let firstDate = dateValueSeries |> Series.firstKey
                             Series.scanValues (fun (date,total) (newDate,newValue) -> 
                                 let (timespan:TimeSpan) = (newDate-date) 
-                                newDate, newValue / (max timespan.Days 1)) (firstDate,0) dateValueSeries
+                                newDate, newValue / (max timespan.Days 1)) (firstDate,0) dateValueSeries  //Normalized by how long it took
                             |> Series.map (fun _ series -> series |> snd)
                             |> Series.scanValues (+) 0
                         )
-    |> Frame.ofColumns |> Frame.mapRowKeys (fun d -> d.ToString()) |> Frame.fillMissing Direction.Forward |> Frame.fillMissingWith 0
+    |> Frame.ofColumns |> Frame.fillMissing Direction.Forward |> Frame.fillMissingWith 0
 let ChartWithOptions keys = 
     let options = 
         Options(pointSize=1, 
@@ -95,7 +96,7 @@ let ChartWithOptions keys =
                 hAxis=Axis(title="Dates"), 
                 vAxis=Axis(title="Points worth of models"))
     Chart.WithOptions options     
-results |> Chart.Area  |> ChartWithOptions results.ColumnKeys |> Chart.WithLegend true
+results |> Chart.Area  |> Chart.WithLegend true  |> ChartWithOptions results.ColumnKeys
 
 
 //http://fsprojects.github.io/FSharp.Data.TypeProviders/sqldata.html
