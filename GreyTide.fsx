@@ -68,13 +68,7 @@ let results =
     |> Series.ofValues
     |> Series.groupInto 
         (fun _ (name,_) -> name) 
-        (fun _ series ->  //series 
-                            // |> Series.groupBy (fun _ (name,(date,points)) -> date) 
-                            // |> Series.map (fun _ series -> series.Values 
-                            //                                 |> Seq.sumBy (snd >> snd)) 
-                            // |> Series.sortByKey
-                            // |> Series.scanValues (+) 0
-
+        (fun _ series ->  
                             let dateValueSeries = 
                                 series 
                                 |> Series.groupBy (fun _ (name,(date,points)) -> date) 
