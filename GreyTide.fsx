@@ -53,18 +53,41 @@ let tryFindState name =
         |> Array.map(fun e -> e.Name, e)
         |> Map.ofArray
         |> Map.tryFind name
-
-let results = 
+let data = 
     models
     |> Array.collect (fun model -> model.States 
                                     |> Array.collect (fun state -> 
                                                             state.Name 
                                                             |> tryFindState 
+                                                            |> Option.bind (fun newState -> match newState.To with "Nothing" -> None | _ -> Some newState)
                                                             |> Option.map (fun newState -> newState.To, (state.Date, model.Points)) 
                                                             |> Option.toArray)
                                     |> Array.sortBy (snd >> fst)
-                                    |> Array.filter (fun (state, _) -> state <> "Nothing")
                                     )
+//Get how much work i've done over time
+let days = Seq.initInfinite (fun i -> DateTime.Parse("1/1/2015").AddDays(i|>float), 0.) |> Seq.takeWhile(fun (d,_) -> d < DateTime.Now) |> Seq.map (fun (d,f) -> d.ToShortDateString(),f) |> Seq.toArray
+let mapWork state points = 
+    match state, (points|>float) with
+     | "Assembled",p -> 0.75 * p
+     | ("Primed"|"Varnished"),p -> 0.10 * p
+     | "Painted",p -> 2.0 * p
+     | "Weathered",p -> 0.25 * p
+     | _ -> 0.0
+let results' = 
+    data 
+    |> Array.map (fun (state,(date,points))-> date.Date.ToShortDateString(), mapWork state points)
+    |> Array.append days
+    |> Series.ofValues 
+    |> Series.groupInto (fun _ (d,t) -> d |> DateTime.Parse) (fun _ s -> s |> Series.values |> Seq.map (snd) |> Seq.sum)
+    |> Series.filter (fun k _ -> k <> DateTime.Parse("1/1/2015"))
+    |> Series.sortByKey
+    |> Stats.movingMean 75
+    |> Chart.Line
+
+//Get rolling sum of state changes                                    
+let results = 
+    data
+    |> Array.map (fun (state,(date,points)) -> state,(date,points|>float))
     |> Series.ofValues
     |> Series.groupInto 
         (fun _ (name,_) -> name) 
@@ -73,14 +96,14 @@ let results =
                                 series 
                                 |> Series.groupBy (fun _ (name,(date,points)) -> date) 
                                 |> Series.map (fun date series -> series.Values 
-                                                                    |> Seq.fold (fun (date,total) (_,(_,newvalue)) -> date,total+(newvalue)) (date,0)) 
+                                                                    |> Seq.fold (fun (date,total) (_,(_,newvalue)) -> date,total+(newvalue)) (date,0.)) 
                                 |> Series.sortByKey
                             let firstDate = dateValueSeries |> Series.firstKey
                             Series.scanValues (fun (date,total) (newDate,newValue) -> 
                                 let (timespan:TimeSpan) = (newDate-date) 
-                                newDate, newValue / (max timespan.Days 1)) (firstDate,0) dateValueSeries  //Normalized by how long it took
+                                newDate, newValue / (max timespan.Days 1 |> float)) (firstDate,0.) dateValueSeries  //Normalized by how long it took
                             |> Series.map (fun _ series -> series |> snd)
-                            |> Series.scanValues (+) 0
+                            |> Stats.expandingSum
                         )
     |> Frame.ofColumns |> Frame.fillMissing Direction.Forward |> Frame.fillMissingWith 0
 let ChartWithOptions keys = 
@@ -93,6 +116,19 @@ let ChartWithOptions keys =
 results |> Chart.Area  |> Chart.WithLegend true  |> ChartWithOptions results.ColumnKeys
 
 
+
+    // |> Series.map (fun k series -> let x = series |> Stats.sum
+    //                                x)
+    // |> Stats.movingMean 50
+    // |> Series.groupInto 
+    //     (fun _ (name,_) -> name) 
+    //     (fun _ series -> let x =
+    //                         series 
+    //                         |> Series.map (fun _ (s,(d,p)) -> series |> snd |> snd  ) 
+    //                         |> Stats.movingMean 5
+    //                      x
+    //                     )
+    // |> Frame.ofColumns |> Frame.fillMissing Direction.Forward |> Frame.fillMissingWith 0
 //http://fsprojects.github.io/FSharp.Data.TypeProviders/sqldata.html
 //http://bluemountaincapital.github.io/FSharpRProvider/mac-and-linux.html
 //http://fsprojects.github.io/SQLProvider/
