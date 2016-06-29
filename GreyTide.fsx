@@ -73,7 +73,7 @@ let mapWork state points =
      | "Painted",p -> 2.0 * p
      | "Weathered",p -> 0.25 * p
      | _ -> 0.0
-let results' = 
+let results = 
     data 
     |> Array.map (fun (state,(date,points))-> date.Date.ToShortDateString(), mapWork state points)
     |> Array.append days
@@ -85,7 +85,7 @@ let results' =
     |> Chart.Line
 
 //Get rolling sum of state changes                                    
-let results = 
+let results' = 
     data
     |> Array.map (fun (state,(date,points)) -> state,(date,points|>float))
     |> Series.ofValues
@@ -113,7 +113,7 @@ let ChartWithOptions keys =
                 hAxis=Axis(title="Dates"), 
                 vAxis=Axis(title="Points worth of models"))
     Chart.WithOptions options     
-results |> Chart.Area  |> Chart.WithLegend true  |> ChartWithOptions results.ColumnKeys
+results' |> Chart.Area  |> Chart.WithLegend true  |> ChartWithOptions results'.ColumnKeys
 
 
 
