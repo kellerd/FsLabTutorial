@@ -1,12 +1,13 @@
-﻿// Before running any code, invoke Paket to get the dependencies. 
+﻿// Before running any code, invoke Paket to get the dependencies.
 //
-// You can either build the project (Ctrl + Alt + B in VS) or run 
+// You can either build the project (Ctrl + Alt + B in VS) or run
 // '.paket/paket.bootstrap.exe' and then '.paket/paket.exe install'
 // (if you are on a Mac or Linux, run the 'exe' files using 'mono')
 //
 // Once you have packages, use Alt+Enter (in VS) or Ctrl+Enter to
 // run the following in F# Interactive. You can ignore the project
 // (running it doesn't do anything, it just contains this script)
+#load "packages/FsLab/Themes/AtomChester.fsx"
 #load "packages/FsLab/FsLab.fsx"
 
 open Deedle
@@ -30,7 +31,7 @@ abs (czschool - euschool)
 |> Series.rev
 |> Series.take 5
 
-// Plot a line chart comparing the two data sets 
+// Plot a line chart comparing the two data sets
 // (Opens a web browser window with the chart)
 [ czschool.[1975 .. 2010]; euschool.[1975 .. 2010] ]
 |> Chart.Line
@@ -45,8 +46,8 @@ canadaStuff
 |> Chart.WithLabels [wb.Countries.Canada.Indicators.``Computer, communications and other services (% of commercial service exports)``.Description]
 
 
-let population = 
-    series [for c in wb.Countries -> c.Name, c.Indicators.``Population, total``.[2015] ] - 
+let population =
+    series [for c in wb.Countries -> c.Name, c.Indicators.``Population, total``.[2015] ] -
     series [for c in wb.Countries -> c.Name, c.Indicators.``Population, total``.[2014] ]
 Chart.Geo population
 
@@ -59,8 +60,8 @@ first.Email
 
 type Languages = HtmlProvider<"https://en.wikipedia.org/wiki/Comparison_of_programming_languages">
 let page = Languages.Load("https://en.wikipedia.org/wiki/Comparison_of_programming_languages")
-let data = page.Tables.``General comparison``.Rows 
+let data = page.Tables.``General comparison``.Rows
             |> Array.filter(fun h -> h.``Functional`` = "Yes")
-let result = 
+let result =
     [for r in data ->
         r.Language, r.``Intended use``, r.Generic, r.``Object-oriented``]
