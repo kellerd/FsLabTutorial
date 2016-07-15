@@ -65,7 +65,17 @@ let data =
                                     |> Array.sortBy (snd >> fst)
                                     )
 //Get how much work i've done over time
-let days = Seq.initInfinite (fun i -> DateTime.Parse("1/1/2015").AddDays(i|>float), 0.) |> Seq.takeWhile(fun (d,_) -> d < DateTime.Now) |> Seq.map (fun (d,f) -> d.ToShortDateString(),f) |> Seq.toArray
+let inline addDays num (date:DateTime) = num |> float |> date.AddDays 
+let daysAfter date daysToAdd = date |> DateTime.Parse |> addDays daysToAdd
+let toKeyWithValue value key = key,value 
+let keyBeforeToday (date,_) = date < DateTime.Now
+let days = 
+    daysAfter "1/1/2015" >> toKeyWithValue 0.
+    |> Seq.initInfinite  
+    |> Seq.takeWhile keyBeforeToday 
+    |> Seq.map (fun (d,f) -> d.ToShortDateString(),f) 
+    |> Seq.toArray
+    
 let mapWork state points = 
     match state, (points|>float) with
      | "Assembled",p -> 0.75 * p
@@ -73,24 +83,29 @@ let mapWork state points =
      | "Painted",p -> 2.0 * p
      | "Weathered",p -> 0.25 * p
      | _ -> 0.0
+
+let byParsedDate series (date,_) = date |> DateTime.Parse
+let sumUpPoints _ = Series.values >> Seq.map (snd) >> Seq.sum
 let results = 
     data 
     |> Array.map (fun (state,(date,points))-> date.Date.ToShortDateString(), mapWork state points)
     |> Array.append days
     |> Series.ofValues 
-    |> Series.groupInto (fun _ (d,t) -> d |> DateTime.Parse) (fun _ s -> s |> Series.values |> Seq.map (snd) |> Seq.sum)
+    |> Series.groupInto byParsedDate sumUpPoints
     |> Series.filter (fun k _ -> k <> DateTime.Parse("1/1/2015"))
     |> Series.sortByKey
     |> Stats.movingMean 75
     |> Chart.Line
+
+let byName series (name,_) = name
+
 
 //Get rolling sum of state changes                                    
 let results' = 
     data
     |> Array.map (fun (state,(date,points)) -> state,(date,points|>float))
     |> Series.ofValues
-    |> Series.groupInto 
-        (fun _ (name,_) -> name) 
+    |> Series.groupInto byName
         (fun _ series ->  
                             let dateValueSeries = 
                                 series 
