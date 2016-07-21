@@ -1,3 +1,5 @@
+
+#load "packages/FsLab/Themes/AtomChester.fsx"
 #load "packages/FsLab/FsLab.fsx"
 open System
 open Deedle
