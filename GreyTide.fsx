@@ -7,10 +7,17 @@ open XPlot.GoogleCharts.Deedle
 
 
 
-type States = JsonProvider<"""http://greytide.azurewebsites.net/tide/v2/States""">
-type Models = JsonProvider<"""http://greytide.azurewebsites.net/tide/v2/Models/""">
-let states = States.Load("""http://greytide.azurewebsites.net/tide/v2/States/""")
-let models = Models.Load("""http://greytide.azurewebsites.net/tide/v2/Models/""")
+// type States = JsonProvider<"""http://greytide.azurewebsites.net/tide/v2/States""">
+// type Models = JsonProvider<"""http://greytide.azurewebsites.net/tide/v2/Models/""">
+// let states = States.Load("""http://greytide.azurewebsites.net/tide/v2/States/""")
+// let models = Models.Load("""http://greytide.azurewebsites.net/tide/v2/Models/""")
+
+
+type States = JsonProvider<"""v2/States.json""">
+type Models = JsonProvider<"""v2/Models.json""">
+let states = States.Load("""v2/States.json""")
+let models = Models.Load("""v2/Models.json""")
+
 //State.Events.StateCollectionId changed
 
 // let mapStates = states |> Array.map (fun s -> s.Id, 
