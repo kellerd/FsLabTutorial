@@ -50,15 +50,20 @@ let population =
     series [for c in wb.Countries -> c.Name, c.Indicators.``Population, total``.[2014] ]
 Chart.Geo population
 
-type People = CsvProvider<"Data.csv">
-let people = People.GetSample()
+[<Literal>]
+let dataFile = __SOURCE_DIRECTORY__ + """\Data.csv"""
+type People = CsvProvider<dataFile>
+let people = People.Load(dataFile)
 let first = people.Rows |> Seq.head
 first.Person_ID
 first.Phone
 first.Email
 
-type Languages = HtmlProvider<"https://en.wikipedia.org/wiki/Comparison_of_programming_languages">
-let page = Languages.Load("https://en.wikipedia.org/wiki/Comparison_of_programming_languages")
+[<Literal>]
+let htmlFile = __SOURCE_DIRECTORY__ + """\html\Comparison_of_programming_languages.html"""
+//let htmlFile= https://en.wikipedia.org/wiki/Comparison_of_programming_languages
+type Languages = HtmlProvider<htmlFile>
+let page = Languages.Load(htmlFile)
 let data = page.Tables.``General comparison``.Rows 
             |> Array.filter(fun h -> h.``Functional`` = "Yes")
 let result = 
