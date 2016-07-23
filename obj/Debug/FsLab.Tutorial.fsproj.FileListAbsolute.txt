@@ -11,3 +11,5 @@ c:\Users\diese\Source\Repos\FsLabTutorial\bin\Debug\FSharp.Data.xml
 c:\Users\diese\Source\Repos\FsLabTutorial\bin\Debug\FSharp.Data.DesignTime.pdb
 c:\Users\diese\Source\Repos\FsLabTutorial\bin\Debug\FSharp.Data.DesignTime.xml
 c:\Users\diese\Source\Repos\FsLabTutorial\obj\Debug\FsLab.Tutorial.fsproj.FsLab.Tutorial.exe.config
+c:\Users\Dan\Documents\GitHub\FsLabTutorial\obj\Debug\FsLab.Tutorial.fsprojResolveAssemblyReference.cache
+c:\Users\Dan\Documents\GitHub\FsLabTutorial\obj\Debug\FsLab.Tutorial.fsproj.FsLab.Tutorial.exe.config
