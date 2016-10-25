@@ -11,10 +11,10 @@ module GreyTide =
     open XPlot.GoogleCharts
     open XPlot.GoogleCharts.Deedle
 
-    let [<Literal>] statesFile = __SOURCE_DIRECTORY__ + """\v2\States.json"""
+    let [<Literal>] statesFile = __SOURCE_DIRECTORY__ + """\v1\States.json"""
     // let [<Literal>] statesFile = """http://greytide.azurewebsites.net/tide/v1/Models/"""
     
-    let [<Literal>] modelsFile = __SOURCE_DIRECTORY__ + """\v2\Models.json"""
+    let [<Literal>] modelsFile = __SOURCE_DIRECTORY__ + """\v1\Models.json"""
     //let [<Literal>] modelsFile = http://greytide.azurewebsites.net/tide/v1/Models/
 
     type States = JsonProvider<statesFile>
