@@ -1,2 +1,4 @@
 source https://nuget.org/api/v2
+nuget Deedle 1.0.7
+nuget FAKE
 nuget FsLab 0.2.7

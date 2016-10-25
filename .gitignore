@@ -2,3 +2,7 @@ packages
 *.suo
 .DS_Store
 .paket/paket.exe
+bin/
+.fake/
+build/
+obj/
