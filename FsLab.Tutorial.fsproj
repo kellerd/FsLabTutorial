@@ -59,8 +59,8 @@
     <Content Include="Google.DataTable.Net.Wrapper.XML">
       <Paket>True</Paket>
     </Content>
-    <Compile Include="Tutorial.fs" />
-    <Compile Include="GreyTide.fs" />
+    <None Include="Tutorial.fsx" />
+    <None Include="GreyTide.fsx" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <Choose>
