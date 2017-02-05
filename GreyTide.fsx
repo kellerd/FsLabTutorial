@@ -7,44 +7,16 @@ open XPlot.GoogleCharts.Deedle
 
 
 [<Literal>]
-let statesFile = __SOURCE_DIRECTORY__ + """\v1\States.json"""
-// let statesFile = """http://greytide.azurewebsites.net/tide/v1/Models/"""
+let statesFile = __SOURCE_DIRECTORY__ + """\v3\States.json"""
+//let statesFile = """http://greytide.azurewebsites.net/tide/v1/Models/"""
 [<Literal>]
-let modelsFile = __SOURCE_DIRECTORY__ + """\v1\Models.json"""
-//let modelsFile = http://greytide.azurewebsites.net/tide/v1/Models/
+let modelsFile = __SOURCE_DIRECTORY__ + """\v3\Models.json"""
+//let modelsFile = """http://greytide.azurewebsites.net/tide/v1/Models/"""
 
 type States = JsonProvider<statesFile>
 type Models = JsonProvider<modelsFile>
 let states = States.Load(statesFile)
 let models = Models.Load(modelsFile)
-
-//State.Events.StateCollectionId changed
-
-// let mapStates = states |> Array.map (fun s -> s.Id, 
-//                                               s.Id2,
-//                                               s.Name,
-//                                               s.Type,
-//                                               s.Events 
-//                                               |> Array.map (fun (e :States.Event) -> 
-//                                                                      e.Name, 
-//                                                                      e.Id, 
-//                                                                      e.To, 
-//                                                                      e.Order, 
-//                                                                      e.StateCollectionId, 
-//                                                                      e.From
-//                                                                      |> Array.map (fun (f : States.From) -> 
-//                                                                                             f.Name,
-//                                                                                             f.Type,
-//                                                                                             f.Id,
-//                                                                                             f.StateId)))
-//V1 : int * Guid * string * string * (string * int * string * int * Guid (Option(string) * Option(string) * Option(string) * Option(Guid)) []) []) []
-//V2 : int * Guid * string * string * (string * int * string * int * Guid * string []) []) []
-type Person = JsonProvider<"""[{"name":"Dan", "language":"F#"}]""">
- //                           ,{"name":"Dad"}
-let samples = Person.GetSamples()
-
-samples |> Array.map (fun p -> p.Name.Length + p.Language.Length)
-
 let inline addDays num (date:DateTime) = num |> float |> date.AddDays 
 let daysAfter date daysToAdd = date |> DateTime.Parse |> addDays daysToAdd
 let toKeyWithValue value key = key,value 
@@ -75,7 +47,12 @@ models
     |> Frame.map (fun s f ms -> ms |> Array.sumBy (fun (m:Models.Root) -> m.Points))
     |> Frame.fillMissingWith 0
     |> Chart.Bar 
+    |> Chart.WithHeight 1920
+    |> Chart.WithWidth 1600
     |> Chart.WithLegend true 
+
+
+//Get how much work i've done over time
 
 let data = 
     models
@@ -84,36 +61,42 @@ let data =
         |> Array.collect (fun state -> 
             state.Name 
             |> tryFindState 
-            |> Option.bind (fun newState -> match newState.To with "Nothing" -> None | _ -> Some newState)
-            |> Option.map (fun newState -> newState.To, (state.Date, model.Points)) 
+            |> Option.bind (fun newState -> 
+                                match newState.To with 
+                                | "Nothing" -> None 
+                                | _ -> (newState.To, (state.Date, model.Points))
+                                       |> Some)
             |> Option.toArray)
-        |> Array.sortBy (snd >> fst)
+        |> Array.sortBy (fun (_,(date,_)) -> date)
         )
 
-//Get how much work i've done over time
 
-let mapWork state points = 
-    match state, (points|>float) with
-     | "Assembled",p -> 0.75 * p
-     | ("Primed"|"Varnished"),p -> 0.10 * p
-     | "Painted",p -> 2.0 * p
-     | "Weathered",p -> 0.25 * p
-     | _ -> 0.0
+//Normalize weightings for different stages of assembly
+
+let normalizeWork state points = 
+    let weight = 
+        match state with
+        | "Assembled" -> 0.75 
+        | "Primed" | "Varnished" -> 0.10 
+        | "Painted" -> 2.0 
+        | "Weathered" -> 0.25 
+        | _ -> 0.0
+    weight * (float points) 
+
 
 let sumUpPoints _ = Series.values >> Seq.map (snd) >> Seq.sum
+
 data 
-    |> Array.map (fun (state,(date,points))-> date.Date.ToShortDateString(), mapWork state points)
+    |> Array.map (fun (state,(date,points))-> date.Date.ToShortDateString(), normalizeWork state points)
     |> Array.append days
     |> Series.ofValues 
     |> Series.groupInto byParsedDate sumUpPoints
     |> Series.filter (fun k _ -> k <> DateTime.Parse("1/1/2015"))
     |> Series.sortByKey
-    |> Stats.movingMean 75
+    |> Stats.movingMean 100
     |> Chart.Line
 
 
-
-                        
 //Get rolling sum of state changes                                    
 let results' = 
     let sortByDateAndTotal series = 
@@ -140,9 +123,10 @@ let results' =
     |> Frame.fillMissing Direction.Forward 
     |> Frame.fillMissingWith 0
 
-results' |> Chart.Area  |> Chart.WithLegend true
-|> Chart.WithOptions (Options(hAxis=Axis(title="Dates"), vAxis=Axis(title="Points worth of models"), pointSize=1, 
-                              trendlines=(results'.ColumnKeys |> Seq.map (fun k -> Trendline(labelInLegend=k,opacity=0.5,lineWidth=5,color="#C0D9EA")) |> Seq.toArray))) 
+results' |> Chart.Area
+|> Chart.WithOptions (Options(hAxis=Axis(title="Dates"), vAxis=Axis(title="Points worth of models"), pointSize=1
+                        ,       trendlines=(results'.ColumnKeys |> Seq.map (fun k -> Trendline(labelInLegend=k,opacity=0.5,lineWidth=5,color="#C0D9EA")) |> Seq.toArray)
+                              )) 
 
 
     // |> Series.map (fun k series -> let x = series |> Stats.sum

@@ -69,3 +69,42 @@ let data = page.Tables.``General comparison``.Rows
 let result = 
     [for r in data ->
         r.Language, r.``Intended use``, r.Generic, r.``Object-oriented``]
+
+
+
+[<Literal>]
+let statesFile = __SOURCE_DIRECTORY__ + """\v1\States.json"""
+// let statesFile = """http://greytide.azurewebsites.net/tide/v1/Models/"""
+[<Literal>]
+let modelsFile = __SOURCE_DIRECTORY__ + """\v1\Models.json"""
+//let modelsFile = http://greytide.azurewebsites.net/tide/v1/Models/
+
+type States = JsonProvider<statesFile>
+type Models = JsonProvider<modelsFile>
+let states = States.Load(statesFile)
+let models = Models.Load(modelsFile)
+
+//State.Events.StateCollectionId changed
+
+// let mapStates = states |> Array.map (fun s -> s.Id, 
+//                                               s.Id2,
+//                                               s.Name,
+//                                               s.Type,
+//                                               s.Events 
+//                                               |> Array.map (fun (e :States.Event) -> 
+//                                                                      e.Name, 
+//                                                                      e.Id, 
+//                                                                      e.To, 
+//                                                                      e.Order, 
+//                                                                      e.StateCollectionId, 
+//                                                                      e.From
+//                                                                      |> Array.map (fun (f : States.From) -> 
+//                                                                                             f.Name,
+//                                                                                             f.Type,
+//                                                                                             f.Id,
+//                                                                                             f.StateId)))
+//V1 : int * Guid * string * string * (string * int * string * int * Guid (Option(string) * Option(string) * Option(string) * Option(Guid)) []) []) []
+//V2 : int * Guid * string * string * (string * int * string * int * Guid * string []) []) []
+type Person = JsonProvider<"""[{"name":"Dan", "language":"F#"},{"name":"Brian"}]""">
+let samples = Person.GetSamples()
+let results = samples |> Seq.head |> fun p -> p.Name, p.Language
