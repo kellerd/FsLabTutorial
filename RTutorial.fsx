@@ -159,8 +159,19 @@ cors
     row.GetAs<string>("Row") < row.GetAs<string>("Column") )
 |> Frame.sortRowsBy "Value" ((*) -1.0)
 |> Frame.take 3
+
 (*** include-it:cor ***)
 
+type Recall = CsvProvider<"""C:\Users\diese\Downloads\vrdb_full_monthly.csv""", InferRows=2900>
+let data = Recall.GetSample().Rows
+
+let x = series [for row in data -> row.RECALL_NUMBER_NUM => row.MAKE_NAME_NM] 
+let y = series [for row in data -> row.RECALL_NUMBER_NUM => row.MODEL_NAME_NM]
+let z = series [for row in data -> row.RECALL_NUMBER_NUM => row.SYSTEM_TYPE_ETXT ]
+
+let frame = frame ["Make",x
+                   "Model",y
+                   "System",z]
 (**
 More about the FsLab journal runner
 -----------------------------------

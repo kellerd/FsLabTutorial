@@ -7,10 +7,10 @@ open XPlot.GoogleCharts.Deedle
 
 
 [<Literal>]
-let statesFile = __SOURCE_DIRECTORY__ + """\v3\States.json"""
+let statesFile = __SOURCE_DIRECTORY__ + """\v1\States.json"""
 //let statesFile = """http://greytide.azurewebsites.net/tide/v1/Models/"""
 [<Literal>]
-let modelsFile = __SOURCE_DIRECTORY__ + """\v3\Models.json"""
+let modelsFile = __SOURCE_DIRECTORY__ + """\v1\Models.json"""
 //let modelsFile = """http://greytide.azurewebsites.net/tide/v1/Models/"""
 
 type States = JsonProvider<statesFile>

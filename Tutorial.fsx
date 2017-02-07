@@ -46,8 +46,9 @@ canadaStuff
 
 
 let population = 
-    series [for c in wb.Countries -> c.Name, c.Indicators.``Population, total``.[2015] ] - 
-    series [for c in wb.Countries -> c.Name, c.Indicators.``Population, total``.[2014] ]
+    (series [for c in wb.Countries -> c.Name, c.Indicators.``Population, total``.[2015] ] - 
+     series [for c in wb.Countries -> c.Name, c.Indicators.``Population, total``.[2014] ]) /
+    series [for c in wb.Countries -> c.Name, c.Indicators.``Population, total``.[2015] ] * 100.0
 Chart.Geo population
 
 [<Literal>]
@@ -73,16 +74,107 @@ let result =
 
 
 [<Literal>]
-let statesFile = __SOURCE_DIRECTORY__ + """\v1\States.json"""
+let statesFile = __SOURCE_DIRECTORY__ + """\v3\States.json"""
 // let statesFile = """http://greytide.azurewebsites.net/tide/v1/Models/"""
 [<Literal>]
-let modelsFile = __SOURCE_DIRECTORY__ + """\v1\Models.json"""
+let modelsFile = __SOURCE_DIRECTORY__ + """\v3\Models.json"""
 //let modelsFile = http://greytide.azurewebsites.net/tide/v1/Models/
 
 type States = JsonProvider<statesFile>
 type Models = JsonProvider<modelsFile>
 let states = States.Load(statesFile)
 let models = Models.Load(modelsFile)
+let percentDone state  = 
+    match state with
+    | "Dislike" -> 0.15
+    | "Assembled" -> 0.25 
+    | "Prime"  -> 0.30 
+    | "Varnished" -> 0.99 
+    | "Paint" -> 0.90
+    | "Weather" -> 0.95 
+    | "Complete" -> 1.0
+    | "NOS" | "Startup" | "Buy New" -> 0.0
+    | x ->  0.0
+
+let mapFactions faction =
+    match faction with
+    | "Tyranids" | "Gene Cult" -> 1
+    | "Space Wolves" | "Deathwatch" -> 2
+    | "Ork" -> 3
+    | _ -> 4
+
+let currentStates = series [for m in models ->m.Id2.ToString(), percentDone m.CurrentState]
+let factions = series [for m in models -> m.Id2.ToString(), mapFactions m.Faction]
+let points = series [for m in models -> m.Id2.ToString(), m.Points]
+let all = Frame(["Complete";"Points";"Factions"],
+                [currentStates;points;factions])
+
+//open RProvider.utils
+//R.install_packages("caret")
+//R.install_packages("zoo")
+open Deedle
+open RDotNet
+open RProvider
+open RProvider.``base``
+open RProvider.datasets
+open RProvider.caret
+open RProvider.stats
+
+let allX = all.Columns.[["Complete";"Points"; ]] 
+let fix = R.kmeans(x=allX, centers=3)
+let centers = fix.AsList().["centers"]
+
+let features =
+    all
+    |> Frame.filterCols (fun c _ -> c <> "Factions")
+    |> Frame.mapColValues (fun c -> c.As<double>())
+let targets = R.as_factor(all.Columns.["Factions"])
+
+
+R.featurePlot(x = allX, y = targets, plot = "pairs")
+R.featurePlot(x = centers, y = targets, plot = "pairs")
+
+
+let modelVect = fix.AsList().["cluster"].AsVector()
+let names = modelVect.Names
+let values : int [] = modelVect.GetValue()
+
+let keyedModels = models |> Seq.map (fun m -> m.Id2.ToString(), m.Name) |> dict
+let pairs = 
+    Array.zip names values
+    |> Array.groupBy snd
+    |> Array.map (fun (g,vs) -> vs |> Array.map (fun (k,v) -> keyedModels.[k],v))
+
+//open System
+//open System.Linq
+//
+//let d = models.ToDictionary(fun m -> m.Id2)
+//models |> Seq.iter (fun model ->
+//    printfn "Split? %s - %d" model.Name model.Points
+//    match System.Console.ReadLine() |> char with
+//    | 'y' -> 
+//        printfn "Times?"
+//        match Int32.TryParse(System.Console.ReadLine()) with
+//        | true,n -> 
+//            d.Remove(model.Id2) |> ignore
+//            for i in 0 .. n - 1 do
+//                let newM = Models.Root(
+//                                        model.Id,
+//                                        model.Type, 
+//                                        model.Faction,
+//                                        [||], 
+//                                        System.Guid.NewGuid(), 
+//                                        model.Name,
+//                                        model.CurrentState,
+//                                        model.CurrentDate, 
+//                                        model.Points / n, 
+//                                        [||], 
+//                                        model.UserToken, 
+//                                        model.Type2)
+//                d.Add(newM.Id2, newM)
+//        | _ -> ()
+//    | _ -> ())
+//"[" +  (d.Values |> Seq.map (sprintf "%A") |> String.concat ",") + "]"
 
 //State.Events.StateCollectionId changed
 
