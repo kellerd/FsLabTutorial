@@ -48,16 +48,10 @@ let chart'' =
 
 
 let population = 
-<<<<<<< HEAD
     (series [for c in wb.Countries -> c.Name, c.Indicators.``Population, total``.[2015] ] - 
      series [for c in wb.Countries -> c.Name, c.Indicators.``Population, total``.[2014] ]) /
     series [for c in wb.Countries -> c.Name, c.Indicators.``Population, total``.[2015] ] * 100.0
 Chart.Geo population
-=======
-    series [for c in wb.Countries -> c.Name, c.Indicators.``Population, total``.[2015] ] - 
-    series [for c in wb.Countries -> c.Name, c.Indicators.``Population, total``.[2014] ]
->>>>>>> 6562d249faa3994e0364b14baa0095e367bbfa34
-
 let chart''' = Chart.Geo population
 
 

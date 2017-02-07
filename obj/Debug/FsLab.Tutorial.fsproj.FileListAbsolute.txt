@@ -61,3 +61,15 @@ c:\Users\Dan\Documents\GitHub\FsLabTutorial\bin\Debug\XPlot.GoogleCharts.pdb
 c:\Users\Dan\Documents\GitHub\FsLabTutorial\bin\Debug\XPlot.GoogleCharts.xml
 c:\Users\Dan\Documents\GitHub\FsLabTutorial\bin\Debug\XPlot.GoogleCharts.Deedle.pdb
 c:\Users\Dan\Documents\GitHub\FsLabTutorial\bin\Debug\XPlot.GoogleCharts.Deedle.xml
+c:\Users\diese\Source\Repos\FsLabTutorial\bin\Debug\Deedle.dll
+c:\Users\diese\Source\Repos\FsLabTutorial\bin\Debug\Google.DataTable.Net.Wrapper.dll
+c:\Users\diese\Source\Repos\FsLabTutorial\bin\Debug\Newtonsoft.Json.dll
+c:\Users\diese\Source\Repos\FsLabTutorial\bin\Debug\XPlot.GoogleCharts.Deedle.dll
+c:\Users\diese\Source\Repos\FsLabTutorial\bin\Debug\XPlot.GoogleCharts.dll
+c:\Users\diese\Source\Repos\FsLabTutorial\bin\Debug\Deedle.pdb
+c:\Users\diese\Source\Repos\FsLabTutorial\bin\Debug\Deedle.xml
+c:\Users\diese\Source\Repos\FsLabTutorial\bin\Debug\Newtonsoft.Json.xml
+c:\Users\diese\Source\Repos\FsLabTutorial\bin\Debug\XPlot.GoogleCharts.pdb
+c:\Users\diese\Source\Repos\FsLabTutorial\bin\Debug\XPlot.GoogleCharts.xml
+c:\Users\diese\Source\Repos\FsLabTutorial\bin\Debug\XPlot.GoogleCharts.Deedle.pdb
+c:\Users\diese\Source\Repos\FsLabTutorial\bin\Debug\XPlot.GoogleCharts.Deedle.xml
