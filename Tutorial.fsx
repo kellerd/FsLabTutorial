@@ -8,7 +8,6 @@
 // run the following in F# Interactive. You can ignore the project
 // (running it doesn't do anything, it just contains this script)
 #load "packages/FsLab/FsLab.fsx"
-
 open Deedle
 open FSharp.Data
 open XPlot.GoogleCharts
@@ -20,54 +19,65 @@ let wb = WorldBankData.GetDataContext()
 let cz = wb.Countries.``Czech Republic``.Indicators
 let eu = wb.Countries.``European Union``.Indicators
 
-
 // Use Deedle to get time-series with school enrollment data
 let czschool = series cz.``Gross enrolment ratio, tertiary, both sexes (%)``
 let euschool = series eu.``Gross enrolment ratio, tertiary, both sexes (%)``
 // Get 5 years with the largest difference between EU and CZ
-abs (czschool - euschool)
-|> Series.sort
-|> Series.rev
-|> Series.take 5
+
+let chart = 
+    abs (czschool - euschool)
+    |> Series.sort
+    |> Series.rev
+    |> Series.take 5
 
 // Plot a line chart comparing the two data sets 
 // (Opens a web browser window with the chart)
-[ czschool.[1975 .. 2010]; euschool.[1975 .. 2010] ]
-|> Chart.Line
-|> Chart.WithOptions (Options(legend=Legend(position="bottom")))
-|> Chart.WithLabels ["CZ"; "EU"]
+let chart' =
+    [ czschool.[1975 .. 2010]; euschool.[1975 .. 2010] ]
+    |> Chart.Line
+    |> Chart.WithOptions (Options(legend=Legend(position="bottom")))
+    |> Chart.WithLabels ["CZ"; "EU"]
 
 
 let canadaStuff = series wb.Countries.Canada.Indicators.``Computer, communications and other services (% of commercial service exports)``
-canadaStuff
-|> Chart.Line
-|> Chart.WithOptions (Options(legend=Legend(position="bottom")))
-|> Chart.WithLabels [wb.Countries.Canada.Indicators.``Computer, communications and other services (% of commercial service exports)``.Description]
+let chart'' =
+    canadaStuff
+    |> Chart.Line
+    |> Chart.WithOptions (Options(legend=Legend(position="bottom")))
+    |> Chart.WithLabels [wb.Countries.Canada.Indicators.``Computer, communications and other services (% of commercial service exports)``.Description]
 
 
 let population = 
+<<<<<<< HEAD
     (series [for c in wb.Countries -> c.Name, c.Indicators.``Population, total``.[2015] ] - 
      series [for c in wb.Countries -> c.Name, c.Indicators.``Population, total``.[2014] ]) /
     series [for c in wb.Countries -> c.Name, c.Indicators.``Population, total``.[2015] ] * 100.0
 Chart.Geo population
+=======
+    series [for c in wb.Countries -> c.Name, c.Indicators.``Population, total``.[2015] ] - 
+    series [for c in wb.Countries -> c.Name, c.Indicators.``Population, total``.[2014] ]
+>>>>>>> 6562d249faa3994e0364b14baa0095e367bbfa34
 
-[<Literal>]
-let dataFile = __SOURCE_DIRECTORY__ + """\Data.csv"""
+let chart''' = Chart.Geo population
+
+
+let [<Literal>] dataFile = __SOURCE_DIRECTORY__ + """\Data.csv"""
 type People = CsvProvider<dataFile>
 let people = People.Load(dataFile)
 let first = people.Rows |> Seq.head
-first.Person_ID
-first.Phone
-first.Email
+let x = first.Person_ID 
+let y = first.Phone 
+let z = first.Email
 
-[<Literal>]
-let htmlFile = __SOURCE_DIRECTORY__ + """\html\Comparison_of_programming_languages.html"""
-//let htmlFile= https://en.wikipedia.org/wiki/Comparison_of_programming_languages
+let [<Literal>] htmlFile = __SOURCE_DIRECTORY__ + """\html\Comparison_of_programming_languages.html"""
+//let [<Literal>] htmlFile = @"https://en.wikipedia.org/wiki/Comparison_of_programming_languages"
+//let [<Literal>] dependantTypes = @"https://en.wikipedia.org/wiki/Dependent_type#Comparison_of_languages_with_dependent_types"
 type Languages = HtmlProvider<htmlFile>
 let page = Languages.Load(htmlFile)
 let data = page.Tables.``General comparison``.Rows 
             |> Array.filter(fun h -> h.``Functional`` = "Yes")
 let result = 
+<<<<<<< HEAD
     [for r in data ->
         r.Language, r.``Intended use``, r.Generic, r.``Object-oriented``]
 
@@ -200,3 +210,17 @@ let pairs =
 type Person = JsonProvider<"""[{"name":"Dan", "language":"F#"},{"name":"Brian"}]""">
 let samples = Person.GetSamples()
 let results = samples |> Seq.head |> fun p -> p.Name, p.Language
+=======
+    query {
+        for r in data do
+        where (r.Generic = "Yes")
+        select (r.Language,r.``Intended use`` )
+    } |> Seq.toList
+
+//Define a sample. 
+type Person = JsonProvider<"""[{"name":"Dan", "language":"F#"}]""">
+//                           ,{"name":"Dad"}
+let samples = Person.GetSamples()
+
+samples |> Array.map (fun p -> p.Name.Length + p.Language.Length) 
+>>>>>>> 6562d249faa3994e0364b14baa0095e367bbfa34
