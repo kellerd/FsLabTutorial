@@ -73,8 +73,16 @@ let data = page.Tables.``General comparison``.Rows
 let result = 
     [for r in data ->
         r.Language, r.``Intended use``, r.Generic, r.``Object-oriented``]
+let results' = 
+    query {
+        for r in data do
+        where (r.Generic = "Yes")
+        select (r.Language,r.``Intended use`` )
+    } |> Seq.toList
 
-
+type Person = JsonProvider<"""[{"name":"Dan", "language":"F#"},{"name":"Brian"}]""">
+let samples = Person.GetSamples()
+let results = samples |> Seq.head |> fun p -> p.Name, p.Language
 
 [<Literal>]
 let statesFile = __SOURCE_DIRECTORY__ + """\v3\States.json"""
@@ -105,48 +113,49 @@ let mapFactions faction =
     | "Space Wolves" | "Deathwatch" -> 2
     | "Ork" -> 3
     | _ -> 4
-
-let currentStates = series [for m in models ->m.Id2.ToString(), percentDone m.CurrentState]
+let completeness = series [for m in models ->m.Id2.ToString(), percentDone m.CurrentState]
 let factions = series [for m in models -> m.Id2.ToString(), mapFactions m.Faction]
-let points = series [for m in models -> m.Id2.ToString(), m.Points]
+let points = 
+    query { 
+        for m in models do
+        select (m.Id2.ToString(), m.Points) 
+    } |> series
+    
 let all = Frame(["Complete";"Points";"Factions"],
-                [currentStates;points;factions])
+                [completeness;points;factions])
 
 //open RProvider.utils
 //R.install_packages("caret")
 //R.install_packages("zoo")
-open Deedle
 open RDotNet
 open RProvider
 open RProvider.``base``
-open RProvider.datasets
 open RProvider.caret
 open RProvider.stats
 
 let allX = all.Columns.[["Complete";"Points"; ]] 
 let fix = R.kmeans(x=allX, centers=3)
 let centers = fix.AsList().["centers"]
-
-let features =
-    all
-    |> Frame.filterCols (fun c _ -> c <> "Factions")
-    |> Frame.mapColValues (fun c -> c.As<double>())
 let targets = R.as_factor(all.Columns.["Factions"])
-
-
 R.featurePlot(x = allX, y = targets, plot = "pairs")
 R.featurePlot(x = centers, y = targets, plot = "pairs")
-
 
 let modelVect = fix.AsList().["cluster"].AsVector()
 let names = modelVect.Names
 let values : int [] = modelVect.GetValue()
 
 let keyedModels = models |> Seq.map (fun m -> m.Id2.ToString(), m.Name) |> dict
+centers
 let pairs = 
     Array.zip names values
     |> Array.groupBy snd
-    |> Array.map (fun (g,vs) -> vs |> Array.map (fun (k,v) -> keyedModels.[k],v))
+    |> Array.sortBy fst
+    |> Array.map (fun (g,vs) -> vs |> Array.map (fun (k,v) -> keyedModels.[k]) |> Array.countBy id)
+
+
+
+
+
 
 //open System
 //open System.Linq
@@ -200,20 +209,4 @@ let pairs =
 //                                                                                             f.StateId)))
 //V1 : int * Guid * string * string * (string * int * string * int * Guid (Option(string) * Option(string) * Option(string) * Option(Guid)) []) []) []
 //V2 : int * Guid * string * string * (string * int * string * int * Guid * string []) []) []
-type Person = JsonProvider<"""[{"name":"Dan", "language":"F#"},{"name":"Brian"}]""">
-let samples = Person.GetSamples()
-let results = samples |> Seq.head |> fun p -> p.Name, p.Language
-=======
-    query {
-        for r in data do
-        where (r.Generic = "Yes")
-        select (r.Language,r.``Intended use`` )
-    } |> Seq.toList
 
-//Define a sample. 
-type Person = JsonProvider<"""[{"name":"Dan", "language":"F#"}]""">
-//                           ,{"name":"Dad"}
-let samples = Person.GetSamples()
-
-samples |> Array.map (fun p -> p.Name.Length + p.Language.Length) 
->>>>>>> 6562d249faa3994e0364b14baa0095e367bbfa34
