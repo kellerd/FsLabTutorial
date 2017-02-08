@@ -71,7 +71,6 @@ let page = Languages.Load(htmlFile)
 let data = page.Tables.``General comparison``.Rows 
             |> Array.filter(fun h -> h.``Functional`` = "Yes")
 let result = 
-<<<<<<< HEAD
     [for r in data ->
         r.Language, r.``Intended use``, r.Generic, r.``Object-oriented``]
 

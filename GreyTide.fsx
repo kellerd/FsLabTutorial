@@ -6,28 +6,17 @@ open Deedle
 open FSharp.Data
 open XPlot.GoogleCharts
 open XPlot.GoogleCharts.Deedle
-
-let [<Literal>] statesFile = __SOURCE_DIRECTORY__ + """\v1\States.json"""
-// let [<Literal>] statesFile = """http://greytide.azurewebsites.net/tide/v1/Models/"""
-
-<<<<<<< HEAD
 [<Literal>]
 let statesFile = __SOURCE_DIRECTORY__ + """\v1\States.json"""
 //let statesFile = """http://greytide.azurewebsites.net/tide/v1/Models/"""
 [<Literal>]
 let modelsFile = __SOURCE_DIRECTORY__ + """\v1\Models.json"""
 //let modelsFile = """http://greytide.azurewebsites.net/tide/v1/Models/"""
-=======
-let [<Literal>] modelsFile = __SOURCE_DIRECTORY__ + """\v1\Models.json"""
-//let [<Literal>] modelsFile = http://greytide.azurewebsites.net/tide/v1/Models/
->>>>>>> 6562d249faa3994e0364b14baa0095e367bbfa34
 
 type States = JsonProvider<statesFile>
 type Models = JsonProvider<modelsFile>
 let states = States.Load(statesFile)
 let models = Models.Load(modelsFile)
-<<<<<<< HEAD
-=======
 
 //State.Events.StateCollectionId changed
 let mapStates = states |> Array.map (fun s -> s.Id, 
@@ -51,7 +40,6 @@ let mapStates = states |> Array.map (fun s -> s.Id,
 //V2 : int * Guid * string * string * (string * int * string * int * Guid * string []) []) []
 
 //Helper methods
->>>>>>> 6562d249faa3994e0364b14baa0095e367bbfa34
 let inline addDays num (date:DateTime) = num |> float |> date.AddDays 
 let daysAfter date daysToAdd = date |> DateTime.Parse |> addDays daysToAdd
 let toKeyWithValue value key = key,value 
@@ -78,24 +66,8 @@ let tryFindState name =
     |> Array.map(fun e -> e.Name, e)
     |> Map.ofArray
     |> Map.tryFind name
-<<<<<<< HEAD
-
-models 
-    |> Array.groupBy (fun model -> model.Faction,model.CurrentState) 
-    |> Array.map(fun ((faction,state),models) -> state,faction,models) 
-    |> Frame.ofValues
-    |> Frame.map (fun s f ms -> ms |> Array.sumBy (fun (m:Models.Root) -> m.Points))
-    |> Frame.fillMissingWith 0
-    |> Chart.Bar 
-    |> Chart.WithHeight 1920
-    |> Chart.WithWidth 1600
-    |> Chart.WithLegend true 
 
 
-//Get how much work i've done over time
-
-let data = 
-=======
 let chart = 
     models 
         //Group everything by the thing I'm working on & it's Army
@@ -107,8 +79,8 @@ let chart =
         |> Frame.fillMissingWith 0
         |> Chart.Bar 
         |> Chart.WithLegend true 
+
 let data = // Array of events. (I did X on this day, I did Y on this day)
->>>>>>> 6562d249faa3994e0364b14baa0095e367bbfa34
     models
     |> Array.collect (fun model -> 
         model.States //Collapse all the models, grab their state changes
@@ -123,18 +95,8 @@ let data = // Array of events. (I did X on this day, I did Y on this day)
             |> Option.toArray)
         |> Array.sortBy (fun (_,(date,_)) -> date)
         )
-//Assign values to certain work, based on how hard or intensive, or how much value add
-let mapWork state points = 
-    match state, (points|>float) with
-    | "Assembled",p -> 0.75 * p
-    | ("Primed"|"Varnished"),p -> 0.10 * p
-    | "Painted",p -> 2.0 * p
-    | "Weathered",p -> 0.25 * p
-    | _ -> 0.0
 
-<<<<<<< HEAD
-
-//Normalize weightings for different stages of assembly
+//Normalize weightings for different stages of assembly, based on how hard or intensive
 
 let normalizeWork state points = 
     let weight = 
@@ -147,39 +109,22 @@ let normalizeWork state points =
     weight * (float points) 
 
 
-let sumUpPoints _ = Series.values >> Seq.map (snd) >> Seq.sum
-
+//Get how much work i've done over time
 data 
+    //Format the data for the chart
     |> Array.map (fun (state,(date,points))-> date.Date.ToShortDateString(), normalizeWork state points)
+    //Add blank days 
     |> Array.append days
     |> Series.ofValues 
+    // Running total per day 
     |> Series.groupInto byParsedDate sumUpPoints
+    // Skip the first day, as it would count inserting data into the system as work done
     |> Series.filter (fun k _ -> k <> DateTime.Parse("1/1/2015"))
     |> Series.sortByKey
-    |> Stats.movingMean 100
+    // Moving average of work
+    |> Stats.movingMean 75
     |> Chart.Line
 
-
-//Get rolling sum of state changes                                    
-=======
-//Get how much work i've done over time
-let chart'=
-    data 
-        //Format the data for the chart
-        |> Array.map (fun (state,(date,points))-> date.Date.ToShortDateString(), mapWork state points)
-        //Add blank days 
-        |> Array.append days
-        |> Series.ofValues 
-        // Running total per day 
-        |> Series.groupInto byParsedDate sumUpPoints
-        // Skip the first day, as it would count inserting data into the system as work done
-        |> Series.filter (fun k _ -> k <> DateTime.Parse("1/1/2015"))
-        |> Series.sortByKey
-        // Moving average of work
-        |> Stats.movingMean 75
-        |> Chart.Line
-
->>>>>>> 6562d249faa3994e0364b14baa0095e367bbfa34
 let results' = 
     let sortByDateAndTotal series = 
         series 
@@ -208,35 +153,13 @@ let results' =
     |> Frame.fillMissing Direction.Forward 
     |> Frame.fillMissingWith 0
 
-<<<<<<< HEAD
-results' |> Chart.Area
+results' 
+|> Chart.Area
 |> Chart.WithOptions (Options(hAxis=Axis(title="Dates"), vAxis=Axis(title="Points worth of models"), pointSize=1
                         ,       trendlines=(results'.ColumnKeys |> Seq.map (fun k -> Trendline(labelInLegend=k,opacity=0.5,lineWidth=5,color="#C0D9EA")) |> Seq.toArray)
                               )) 
 
 
-    // |> Series.map (fun k series -> let x = series |> Stats.sum
-    //                                x)
-    // |> Stats.movingMean 50
-    // |> Series.groupInto 
-    //     (fun _ (name,_) -> name) 
-    //     (fun _ series -> let x =
-    //                         series 
-    //                         |> Series.map (fun _ (s,(d,p)) -> series |> snd |> snd  ) 
-    //                         |> Stats.movingMean 5
-    //                      x
-    //                     )
-    // |> Frame.ofColumns |> Frame.fillMissing Direction.Forward |> Frame.fillMissingWith 0
-=======
-let chart'' =
-    results' 
-    |> Chart.Area  
-    |> Chart.WithLegend true
-    //Add trendlines and labels
-    |> Chart.WithOptions (Options(hAxis=Axis(title="Dates"), vAxis=Axis(title="Points worth of models"), pointSize=1, 
-                                trendlines=(results'.ColumnKeys |> Seq.map (fun k -> Trendline(labelInLegend=k,opacity=0.5,lineWidth=5,color="#C0D9EA")) |> Seq.toArray))) 
-
->>>>>>> 6562d249faa3994e0364b14baa0095e367bbfa34
 //http://fsprojects.github.io/FSharp.Data.TypeProviders/sqldata.html
 //http://bluemountaincapital.github.io/FSharpRProvider/mac-and-linux.html
 //http://fsprojects.github.io/SQLProvider/
