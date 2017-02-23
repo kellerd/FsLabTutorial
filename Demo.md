@@ -6,10 +6,10 @@
 # That one app
 - So I'm sure everyone has that one app.
 - It's not pretty, it's not complete. You might've even re-done the app several times.
-- Most apps, especially business are simple
+- Most apps, especially line of business, what i normally deal in are simple
   - There no real complicated domain
   - There is no business logic
-  - 
+  - It's just some huge side effecting page. Page after page of direct database access or update. 
 - What it does have, is data. That's the money.
    - If only you could work with it a little better, massage it, there might be some hidden answer
 
@@ -18,6 +18,7 @@
 - Me, I'll have to poke around a bit. Statistics was 10-12 years ago
 - There are some awesome things built in or with F#
   - Project Springfield, Whitebox Fuzzing for security testing
+- Walmart bought Jet.com for it's F# pricing engine for 3 Billion
 ![The Louvre in Abu Dhabi](http://www.thenational.ae/storyimage/AB/20160615/ARTICLE/160619414/AR/0/AR-160619414.jpg)
 
 # Greytide
@@ -29,13 +30,13 @@
 - Then NoSQL, Cloud providers
 - Suave (Web framework for F#). F# Mentorship
 - Doing the practical thing, trying to get an opinion on things I'm not allowed to do at work
+- Some good decisions, store history of events
 
 # VsCode/Ionide
 - [VsCode](https://code.visualstudio.com/) Cross platform, lightweight, free
 - [Ionide](http://ionide.io/) plugin for FSharp awesomeness
 - Paket, F# package manager. Nuget only goes so far, paket does nuget, 
-
-- Some good decisions, store history of events
+- [FsLab](http://fslab.org)
 
 
 
