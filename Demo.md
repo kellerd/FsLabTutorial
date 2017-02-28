@@ -28,9 +28,11 @@
 - Angular, C# Web Api, Copying some code from a SPA course
 - Browser storage
 - Then NoSQL, Cloud providers
-- Suave (Web framework for F#). F# Mentorship
 - Doing the practical thing, trying to get an opinion on things I'm not allowed to do at work
 - Some good decisions, store history of events
+- How to make it better
+ - Suave (Web framework for F#). F# Mentorship
+ - (Stats about c# impl and f# impl, -140k lines of packages, ect)
 
 # VsCode/Ionide
 - [VsCode](https://code.visualstudio.com/) Cross platform, lightweight, free
@@ -38,18 +40,50 @@
 - Paket, F# package manager. Nuget only goes so far, paket does nuget, 
 - [FsLab](http://fslab.org)
 
+# Demo
+- World bank providers
+  - Pick two countries
+  - \`` Double backtick quotation ``
+  - Math like abs, - 
+- Series, index by years, sort, take, ect
+- Chart Line, Labels
+- Chart Geo
+
+- Html Provider
+ - Dual with wiki page. (Web scraping)
+- Various ways to query? maybe
+- Csv Provider
+ - Changing column name
+- JsonProvider light
+ - Provide single sample
+  - make Array
+  - Change field to optional
+
+- GreyTide service
+ - Change version
+ - Show what some properties mean
+- Infinite Seq
+- Bar chart, but shorter
+- Moving mean
+- Fill with missing
+- Get certain columns
+- Trendlines (primed, completed, assembled high. Painted not so much)
+- Try online v2, Whoops. v3 without auth
 
 
 # RProvider
 - Dan this is great, but it's a little rudimentary. We need some pro tools here.
 - Who knows R? I don't either
 - Best thing about R was it was made by statisticians. The worst thing about R was that it was made by statisticians
-
-
+- Install
+- R Histogram, pie
+- Basic statistics
+- Kmeans
+ - Centers (Heroes, Big dudes, Infantry)
+ - Get some data out of R, some models 
 # Summary
 - Use, learn some statistics I learned in the past
 - Without having to remember javascript, css, some random drawing framework, that you need some other framework to use easily.
-- (Stats about c# impl and f# impl, -140k lines of packages, ect)
 - Learned what I like painting, where are my bottlenecks. 
   - Change the way I paint.  Assembly line the easy stuff to a certain point, spend time on the details.
 # Alternate Resources

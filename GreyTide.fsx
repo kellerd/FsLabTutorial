@@ -6,12 +6,10 @@ open Deedle
 open FSharp.Data
 open XPlot.GoogleCharts
 open XPlot.GoogleCharts.Deedle
-[<Literal>]
-let statesFile = __SOURCE_DIRECTORY__ + """\v1\States.json"""
-//let statesFile = """http://greytide.azurewebsites.net/tide/v1/Models/"""
-[<Literal>]
-let modelsFile = __SOURCE_DIRECTORY__ + """\v1\Models.json"""
-//let modelsFile = """http://greytide.azurewebsites.net/tide/v1/Models/"""
+//let [<Literal>] statesFile = __SOURCE_DIRECTORY__ + """\v1\States.json"""
+let [<Literal>] statesFile = """http://greytide.azurewebsites.net/tide/v3/Models/"""
+//let [<Literal>] modelsFile = __SOURCE_DIRECTORY__ + """\v1\Models.json"""
+let [<Literal>] modelsFile = """http://greytide.azurewebsites.net/tide/v3/Models/"""
 
 type States = JsonProvider<statesFile>
 type Models = JsonProvider<modelsFile>
@@ -47,7 +45,6 @@ let keyBeforeToday (date,_) = date < DateTime.Now
 let byName series (name,_) = name
 let byDate series (name,(date,_)) = date
 let inline sumSeriesByPoints (date,total) (_,(_,newvalue:float)) = date,total+(newvalue)
-let byParsedDate series (date,_) = date |> DateTime.Parse
 let sumUpPoints (_:'a) (xs:Series<'b,('c * float)>) : float = xs |> Series.values |> Seq.map (snd) |> Seq.sum 
 let sumModelsByPoints xs = Seq.sumBy (fun (m:Models.Root) -> m.Points) xs
 
@@ -56,7 +53,6 @@ let days =
     daysAfter "1/1/2015" >> toKeyWithValue 0.
     |> Seq.initInfinite  
     |> Seq.takeWhile keyBeforeToday 
-    |> Seq.map (fun (d,f) -> d.ToShortDateString(),f) 
     |> Seq.toArray
 
 //State machine lookup 
@@ -90,12 +86,11 @@ let data = // Array of events. (I did X on this day, I did Y on this day)
             |> Option.bind (fun newState -> 
                                 match newState.To with 
                                 | "Nothing" -> None 
-                                | _ -> (newState.To, (state.Date, model.Points))
+                                | _ -> (newState.To, (state.Date.Date, model.Points))
                                        |> Some)
             |> Option.toArray)
         |> Array.sortBy (fun (_,(date,_)) -> date)
         )
-
 //Normalize weightings for different stages of assembly, based on how hard or intensive
 
 let normalizeWork state points = 
@@ -112,12 +107,12 @@ let normalizeWork state points =
 //Get how much work i've done over time
 data 
     //Format the data for the chart
-    |> Array.map (fun (state,(date,points))-> date.Date.ToShortDateString(), normalizeWork state points)
+    |> Array.map (fun (state,(date,points))-> date, normalizeWork state points)
     //Add blank days 
     |> Array.append days
     |> Series.ofValues 
     // Running total per day 
-    |> Series.groupInto byParsedDate sumUpPoints
+    |> Series.groupInto (fun _ -> fst) sumUpPoints
     // Skip the first day, as it would count inserting data into the system as work done
     |> Series.filter (fun k _ -> k <> DateTime.Parse("1/1/2015"))
     |> Series.sortByKey
@@ -153,11 +148,17 @@ let results' =
     |> Frame.fillMissing Direction.Forward 
     |> Frame.fillMissingWith 0
 
-results' 
+let trendlines = [| Trendline(labelInLegend="Painted", color="#FF0000") 
+                    Trendline(labelInLegend="Primed", color="#FF0000") 
+                    Trendline(labelInLegend="Completed", color="#FF0000")  |]
+let options = Options (
+                hAxis=Axis(title="Dates"),
+                vAxis=Axis(title="Points worth of models"),
+                pointSize=1,
+                trendlines=trendlines) 
+results' |> Frame.sliceCols ["Painted";"Primed";"Completed"] 
 |> Chart.Area
-|> Chart.WithOptions (Options(hAxis=Axis(title="Dates"), vAxis=Axis(title="Points worth of models"), pointSize=1
-                        ,       trendlines=(results'.ColumnKeys |> Seq.map (fun k -> Trendline(labelInLegend=k,opacity=0.5,lineWidth=5,color="#C0D9EA")) |> Seq.toArray)
-                              )) 
+|> Chart.WithOptions options 
 
 
 //http://fsprojects.github.io/FSharp.Data.TypeProviders/sqldata.html

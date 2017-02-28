@@ -23,7 +23,6 @@ let eu = wb.Countries.``European Union``.Indicators
 let czschool = series cz.``Gross enrolment ratio, tertiary, both sexes (%)``
 let euschool = series eu.``Gross enrolment ratio, tertiary, both sexes (%)``
 // Get 5 years with the largest difference between EU and CZ
-
 let chart = 
     abs (czschool - euschool)
     |> Series.sort
@@ -37,7 +36,7 @@ let chart' =
     |> Chart.Line
     |> Chart.WithOptions (Options(legend=Legend(position="bottom")))
     |> Chart.WithLabels ["CZ"; "EU"]
-
+    |> Chart.WithTitle "Bacon"
 
 let canadaStuff = series wb.Countries.Canada.Indicators.``Computer, communications and other services (% of commercial service exports)``
 let chart'' =
@@ -73,16 +72,17 @@ let data = page.Tables.``General comparison``.Rows
 let result = 
     [for r in data ->
         r.Language, r.``Intended use``, r.Generic, r.``Object-oriented``]
+
 let results' = 
-    query {
+    query { 
         for r in data do
         where (r.Generic = "Yes")
         select (r.Language,r.``Intended use`` )
     } |> Seq.toList
 
 type Person = JsonProvider<"""[{"name":"Dan", "language":"F#"},{"name":"Brian"}]""">
-let samples = Person.GetSamples()
-let results = samples |> Seq.head |> fun p -> p.Name, p.Language
+let samples : Person.Root[] = Person.GetSamples()
+let person = samples |> Seq.head |> fun p -> p.Name, p.Language
 
 [<Literal>]
 let statesFile = __SOURCE_DIRECTORY__ + """\v3\States.json"""
