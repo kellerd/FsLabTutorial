@@ -7,9 +7,9 @@ open FSharp.Data
 open XPlot.GoogleCharts
 open XPlot.GoogleCharts.Deedle
 //let [<Literal>] statesFile = __SOURCE_DIRECTORY__ + """\v1\States.json"""
-let [<Literal>] statesFile = """http://greytide.azurewebsites.net/tide/v3/Models/"""
+let [<Literal>] statesFile = """http://greytide.azurewebsites.net/tide/v3/States"""
 //let [<Literal>] modelsFile = __SOURCE_DIRECTORY__ + """\v1\Models.json"""
-let [<Literal>] modelsFile = """http://greytide.azurewebsites.net/tide/v3/Models/"""
+let [<Literal>] modelsFile = """http://greytide.azurewebsites.net/tide/v3/Models"""
 
 type States = JsonProvider<statesFile>
 type Models = JsonProvider<modelsFile>
@@ -45,7 +45,7 @@ let keyBeforeToday (date,_) = date < DateTime.Now
 let byName series (name,_) = name
 let byDate series (name,(date,_)) = date
 let inline sumSeriesByPoints (date,total) (_,(_,newvalue:float)) = date,total+(newvalue)
-let sumUpPoints (_:'a) (xs:Series<'b,('c * float)>) : float = xs |> Series.values |> Seq.map (snd) |> Seq.sum 
+let sumUpPoints (_:'a) (xs:Series<'b,('c * float)>) : float = Seq.sumBy snd (xs |> Series.values)
 let sumModelsByPoints xs = Seq.sumBy (fun (m:Models.Root) -> m.Points) xs
 
 //Big array of all the days to fill gaps in my data
