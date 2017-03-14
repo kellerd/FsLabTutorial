@@ -93,8 +93,8 @@
 - GreyTide service
  - Show what some properties mean
 - Infinite Seq
-- Bar chart, but shorter
 - Moving mean
+- Bar chart, but shorter
 - Fill with missing
 - Get certain columns
 - Trendlines (primed, completed, assembled high. Painted not so much)
@@ -123,6 +123,37 @@
 - Mention Azure Notebooks
 - Mention BigDeedle
 - Mention Angara https://github.com/Microsoft/?utf8=%E2%9C%93&q=Angara
+
+//http://fsprojects.github.io/FSharp.Data.TypeProviders/sqldata.html
+//http://bluemountaincapital.github.io/FSharpRProvider/mac-and-linux.html
+//http://fsprojects.github.io/SQLProvider/
+//http://fsprojects.github.io/FSharp.Data.SqlClient/
+//http://fsprojects.github.io/DynamicsCRMProvider/
+//Exploring StackOverflow http://evelinag.com/ExploringStackOverflow/#/ - https://youtu.be/qlKZKN7il7c
+
+
+// Most weekend
+
+//     Minecraft : 1.19
+//     LWJGL : 1.12
+//     SFML (Simple and Fast Multimedia Library) : 1.06
+//     D : 1.04
+//     pygame : 1.03
+// Most weekday
+
+//     SQL Server Reporting Services 2008, r2 : 0.11
+//     Infragistics : 0.13
+//     SQL Server Reporting Services 2008 : 0.13
+//     Axapta : 0.13
+//     DocusignAPI : 0.14
+// Functional language ratio (> 1 is weekend, <1 is weekday)
+//http://evelinag.com/ExploringStackOverflow/#/0/38
+
+
+
+//Star wars http://evelinag.com/blog/2015/12-15-star-wars-social-network/#.WA-N4nqTTOU - https://youtu.be/EI8a6hFFRGQ
+
+
 
 - FSharp.org
 - functionalprogramming.slack.com

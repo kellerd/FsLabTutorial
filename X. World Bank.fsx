@@ -6,8 +6,7 @@ open XPlot.GoogleCharts
 
 // Store wb as Get world bank context from WorldBankData
 let wb = WorldBankData.GetDataContext()
-let uk = wb.Countries.``United Kingdom``.Indicators
-From wb, select a Canada from contries and pick indicators
+//From wb, select a Canada from contries and pick indicators
 let can = wb.Countries.Canada.Indicators
 //From wb, select a UK from contries and pick indicators
 let uk = wb.Countries.``United Kingdom``.Indicators
@@ -30,7 +29,6 @@ let result =
 let populationChange = 
     let ``2015`` = series [for c in wb.Countries -> c.Name, c.Indicators.``Population, total``.[2015] ]
     let ``2014`` = series [for c in wb.Countries -> c.Name, c.Indicators.``Population, total``.[2014] ]
-
     (``2015`` - ``2014``) / ``2015`` * 100.0
     |> abs
 //Make a Geo Chart for the population change    
