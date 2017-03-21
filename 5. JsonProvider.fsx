@@ -11,7 +11,7 @@ let samples = Person.GetSamples()
 //Fix person 
 let person = samples |> Seq.head |> fun p -> p.Name, p.Language
 
-// let [<Literal>] statesFile = """http://greytide.azurewebsites.net/tide/v2/Models/"""
+//let [<Literal>] StatesFile = """http://greytide.azurewebsites.net/tide/v3/States/"""
 let [<Literal>] StatesFile = __SOURCE_DIRECTORY__ + """\data\v1\States.json"""  
 type States = JsonProvider<StatesFile>
 let states = States.Load(StatesFile)

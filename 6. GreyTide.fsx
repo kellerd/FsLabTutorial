@@ -5,6 +5,9 @@ open XPlot.GoogleCharts
 open XPlot.GoogleCharts.Deedle
 
 
+//let [<Literal>] StatesFile = """http://greytide.azurewebsites.net/tide/v3/States/"""
+
+//let [<Literal>] ModelsFile = """http://greytide.azurewebsites.net/tide/v3/Models/"""
 let [<Literal>] StatesFile = __SOURCE_DIRECTORY__ + """\data\v1\States.json"""  
 let [<Literal>] ModelsFile = __SOURCE_DIRECTORY__ + """\data\v1\Models.json"""  
 type States = JsonProvider<StatesFile>
@@ -83,7 +86,10 @@ let normalizeWork state points =
         | _ -> 0.0
     weight * (float points) 
 
+//Try to get a plot of how much work is done in certain periods. 
+//Are some months better?
 //Take the data, which is (state,(date,points)
+let firstDate = DateTime.Parse("1/1/2015")
 data 
     //Format the data for the chart, by mapping the array to  date, normalizeWork state points
     |> Array.map (fun (state,(date,points))-> date, normalizeWork state points)
@@ -93,8 +99,8 @@ data
     |> Series.ofValues 
     // Take the Series, group into chunks by the (fun _ -> fst) key, map with sumUpPoints to get a total per day
     |> Series.groupInto (fun _ -> fst) sumUpPoints
-    // Skip the first day, as it would count inserting data into the system as work done
-    |> Series.filter (fun k _ -> k <> DateTime.Parse("1/1/2015"))
+    // Filter out the Series where the key <> firstDate , as it would count inserting data into the system as work done
+    |> Series.filter (fun k _ -> k <> firstDate)
     // Sort the Series by the key
     |> Series.sortByKey
     // Create a moving mean from the stats module, for every 75 days
@@ -120,25 +126,30 @@ let expandingSumRateOfChange _ series =
     |> sortByDateAndTotal
     //Normalized by how long it took
     |> Series.scanValues averageRateOfChange (firstDate,0.)
+    //Only take the point values, not the floats
     |> Series.map (fun _ series -> series |> snd)
-    //
+    //Cumulative adding of columns
     |> Stats.expandingSum
 
+//How much culminated work that is in each state 
+//let results =
 let results = 
+    //The data 
     data
-    //Cast to float
+    //Map the array of (state,(date,points)) and cast points to float
     |> Array.map (fun (state,(date,points)) -> state,(date,float points))
     //Sort by date
     |> Array.sortBy(fun (state,(date,points)) -> date)
-    //Create series
+    //Create series of the values
     |> Series.ofValues
-    //Group by name, taking the growth of values
+    //Group and aggregate into, by name,  expandingSum
     |> Series.groupInto byName expandingSumRateOfChange
-    //This Gives a grid of States, and a bunch of work on any day
+    //Create a Frame of the columns
     |> Frame.ofColumns 
-    //Mark in missing so chart isn't messed up
+    //Fill missing values in the forward direction
     |> Frame.fillMissing Direction.Forward 
-    |> Frame.fillMissingWith 0
+    //Fill missing values with 0
+    |> Frame.fillMissingWith 0 
 
 //Create some trend lines
 let trendlines = [| Trendline(labelInLegend="Painted", color="#FF0000") 
@@ -151,10 +162,14 @@ let options = Options (
                 pointSize=1,
                 trendlines=trendlines) 
 
+                
+//results
 results 
-//Only take certain columns
+//Take a slice of the Frame columns "Painted";"Primed";"Completed"
 |> Frame.sliceCols ["Painted";"Primed";"Completed"] 
-//Make an area chart
+//Make an Area Chart
 |> Chart.Area
-//Add trendlines and labels
+//Add Chart options
 |> Chart.WithOptions options 
+
+//Swap with v2,v3 or azure

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Name>FsLab.Tutorial</Name>
@@ -55,6 +55,14 @@
     </Content>
     <None Include="Tutorial.fsx" />
     <None Include="GreyTide.fsx" />
+    <None Include="1. FSLabInstall.fsx" />
+    <None Include="3. HtmlProvider.fsx" />
+    <None Include="4. CsvProvider.fsx" />
+    <None Include="5. JsonProvider.fsx" />
+    <None Include="6. GreyTide.fsx" />
+    <None Include="RTutorial.fsx" />
+    <None Include="X. World Bank.fsx" />
+    <None Include="7. RProvider.fsx" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <Choose>

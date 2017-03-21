@@ -6,10 +6,10 @@ open Deedle
 open FSharp.Data
 open XPlot.GoogleCharts
 open XPlot.GoogleCharts.Deedle
-//let [<Literal>] statesFile = __SOURCE_DIRECTORY__ + """\v1\States.json"""
-let [<Literal>] statesFile = """http://greytide.azurewebsites.net/tide/v3/States"""
-//let [<Literal>] modelsFile = __SOURCE_DIRECTORY__ + """\v1\Models.json"""
-let [<Literal>] modelsFile = """http://greytide.azurewebsites.net/tide/v3/Models"""
+let [<Literal>] statesFile = __SOURCE_DIRECTORY__ + """\v1\States.json"""
+//let [<Literal>] statesFile = """http://greytide.azurewebsites.net/tide/v1/States"""
+let [<Literal>] modelsFile = __SOURCE_DIRECTORY__ + """\v1\Models.json"""
+//let [<Literal>] modelsFile = """http://greytide.azurewebsites.net/tide/v1/Models"""
 
 type States = JsonProvider<statesFile>
 type Models = JsonProvider<modelsFile>

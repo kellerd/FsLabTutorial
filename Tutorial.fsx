@@ -84,17 +84,16 @@ type Person = JsonProvider<"""[{"name":"Dan", "language":"F#"},{"name":"Brian"}]
 let samples : Person.Root[] = Person.GetSamples()
 let person = samples |> Seq.head |> fun p -> p.Name, p.Language
 
-[<Literal>]
-let statesFile = __SOURCE_DIRECTORY__ + """\v3\States.json"""
+
+let [<Literal>] StatesFile = __SOURCE_DIRECTORY__ + """\data\v3\States.json"""
 // let statesFile = """http://greytide.azurewebsites.net/tide/v1/Models/"""
-[<Literal>]
-let modelsFile = __SOURCE_DIRECTORY__ + """\v3\Models.json"""
+let [<Literal>] ModelsFile = __SOURCE_DIRECTORY__ + """\data\v3\Models.json"""
 //let modelsFile = http://greytide.azurewebsites.net/tide/v1/Models/
 
-type States = JsonProvider<statesFile>
-type Models = JsonProvider<modelsFile>
-let states = States.Load(statesFile)
-let models = Models.Load(modelsFile)
+type States = JsonProvider<StatesFile>
+type Models = JsonProvider<ModelsFile>
+let states = States.Load(StatesFile)
+let models = Models.Load(ModelsFile)
 let percentDone state  = 
     match state with
     | "Dislike" -> 0.15
