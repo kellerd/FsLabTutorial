@@ -112,12 +112,19 @@
 - Kmeans
  - Centers (Heroes, Big dudes, Infantry)
  - Get some data out of R, some models 
+# Lessons
+- Spike in work from Airbrush
+- Way industry is going. Marketing is working?
+- Whats missing - Time tracking.
+- Start painting models for people, it's a current business for other people.
+
 # Summary
 - Use, learn some statistics I learned in the past
 - Without having to remember javascript, css, some random drawing framework, that you need some other framework to use easily.
 - Learned what I like painting, where are my bottlenecks. 
   - Change the way I paint.  Assembly line the easy stuff to a certain point, spend time on the details.
   - And from the data I could find out what I could easily offer as a paid painting service for people. 
+
 # Alternate Resources
 - Mention MBrace.io
 - Mention Azure Notebooks

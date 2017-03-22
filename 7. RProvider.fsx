@@ -99,13 +99,18 @@ let fpSettings =
 
 //Or with custom list of parameters, R is a little loose with what is available
 //These are our clusters of items based on how complete they are
-R.featurePlot(Map.add "x" (box xs) fpSettings)
+fpSettings 
+|> Map.add "x" (box xs)
+|> R.featurePlot
 //These are the main centers.
 //Big MC's who are 1/2 complete
-//Little space marine infantry who are mostly complete
+//Little tyranids infantry who are mostly complete
 //Medium space marine models, tanks, elites
-R.featurePlot(Map.add "x" (box centers) fpSettings)
+fpSettings 
+|> Map.add "x" (box centers)
+|> R.featurePlot
 
+//Show names of the groups
 let modelVect = clusters.AsList().["cluster"].AsVector()
 let names = modelVect.Names
 let values : int [] = modelVect.GetValue()
@@ -113,14 +118,10 @@ let keyedModels = models |> Seq.map (fun m -> m.Id2.ToString(), m.Name) |> dict
 
 //List out groups of guys
 centers
+//Find the groups of guys
 let pairs = 
     Array.zip names values
     |> Array.groupBy snd
     |> Array.sortBy fst
     |> Array.map (fun (g,vs) -> vs |> Array.map (fun (k,v) -> keyedModels.[k]) |> Array.countBy id)
 
-//Lessons learned from this.
-//Spike in work from Airbrush
-//Way industry is going. Marketing is working?
-//Whats missing - Time tracking.
-//Start painting models for people, it's a current business for other people.
