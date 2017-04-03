@@ -1,21 +1,31 @@
 # Self Improvement with Data Science and F#
 - Intro, Dan Keller
-- No functional prior to 2 years ago. Took up as a way to expand my knowledge. Choose F# because it was on the same platform.
-- This way, I didn't need to learn new core libraries, frameworks, package managers, it all was the same environment.
+
 - A look at some of the open source,easy to use, community offerings to get a better handle on different sources of data.
 - Demo I wanted to give
 - It mainly focuses on FsLab, which itself is a collection of awesome Data Science Libraries
-- How I used it to take a better look at work and make some changes
+- How I used it to take a better look at work I was doing and expose some stories from the data
+- No functional prior to 2 years ago. Took up as a way to expand my knowledge.
+
+### Why F#
+ Choose F# because it was on the same platform.
+- This way, I didn't need to learn new core libraries, frameworks, package managers, it all was the same environment.
+- Now, in my F# I try to focus on functional first, like the language. But, in working with data, you have to be flexible because people are going to try to throw curve balls, you might need to play around a bit. 
+- It's not always, A -> B
+- Theres a glib statement by the F# community which basically comes from most F# programs vs their equivalent C# are 40-60% less code with less depenencies, less complex dependencies. So you can either add more features in, or save on dev + maintenance costs
+
 
 # That one app
-- So I'm sure everyone has that one app.
-- It's not pretty, it's not complete. You might've even re-done the app several times.
 - Most apps, especially line of business, what i normally deal in are simple
   - There no real complicated domain
   - There is no business logic
   - It's just some huge side effecting page. Page after page of direct database access or update. 
-- What it does have, is data. That's the money.
-   - If only you could work with it a little better, massage it, there might be some hidden answer
+
+
+- So I'm sure everyone has that one app.
+- It's not pretty, it's not complete. You might've even re-done the app several times.
+   
+
 <!--
 - Any Math majors, accountants or statisticians in the crowd?
   - Ok, so you guys already know how to look at some data and get a good idea on how things are going
@@ -29,8 +39,16 @@
 
 # Greytide
 - My website, isn't the greatest thing written in F#. Also until recently, it wasn't.
+
+- How to make it better
+  - I still have great thoughts into basically making it into a Kanban board of some sort, but things other than css & javascript things have peeked my interests
+  - My first part of learning comes from the F# Organization's Mentorship program. I was paired with one of the authors of Expert F#, now it wasn't F#'s inventor, but if he's paired with him, he must be good right?
+  - Was a six week program, some of the mentees have different projects, some work on the F# Compiler, some are just learning the basics.
+  - I aimed somewhere in the middle and learned a lightweight F# combinator webserver to replace all that C#. Even a straight port of C#'s logic removed -140k lines of packages, ect)
+
 - http://greytide.azurewebsites.net
 - Basically a time tracker. 
+
 
 - The goal wasn't creating an awesome program for everyone, or just tracking my progress I could've used almost anything, it was for learning.
  - Use it for testing different frameworks, tools. Things i'm not allowed to use at work, but may in the future.
@@ -41,12 +59,9 @@
 - It was 2 years ago, in client javascript land, 2 years might as well be 2 eons ago
 - Now, back to my site. It's pretty bad on the surface. 
  - Most of what I was trying to learn was in the backend.
-- How to make it better
-  - I still have great thoughts into basically making it into a Kanban board of some sort, but things other than css & javascript things have peeked my interests
-  - My first part of learning comes from the F# Organization's Mentorship program. I was paired with one of the authors of Expert F#, now it wasn't F#'s inventor, but if he's paired with him, he must be good right?
-  - Was a six week program, some of the mentees have different projects, some work on the F# Compiler, some are just learning the basics.
-  - I aimed somewhere in the middle and learned a lightweight F# combinator webserver to replace all that C#. Even a straight port of C#'s logic removed -140k lines of packages, ect)
 
+- What it does have, is data. That's the money.
+   - If only you could work with it a little better, massage it, there might be some hidden answer
 
 
 # VsCode/Ionide
@@ -126,10 +141,10 @@
   - And from the data I could find out what I could easily offer as a paid painting service for people. 
 
 # Alternate Resources
-- Mention MBrace.io
-- Mention Azure Notebooks
-- Mention BigDeedle
-- Mention Angara https://github.com/Microsoft/?utf8=%E2%9C%93&q=Angara
+- MBrace.io
+- Azure Notebooks
+- BigDeedle
+- Angara https://github.com/Microsoft/?utf8=%E2%9C%93&q=Angara
 
 //http://fsprojects.github.io/FSharp.Data.TypeProviders/sqldata.html
 //http://bluemountaincapital.github.io/FSharpRProvider/mac-and-linux.html
@@ -154,7 +169,7 @@
 //     Axapta : 0.13
 //     DocusignAPI : 0.14
 // Functional language ratio (> 1 is weekend, <1 is weekday)
-//http://evelinag.com/ExploringStackOverflow/#/0/38
+//http://evelinag.com/exploring-stackoverflow/#/0/41
 
 
 
