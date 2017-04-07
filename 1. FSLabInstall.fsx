@@ -5,7 +5,8 @@
 
 // Run package manager
 //.paket/paket.exe install
-// Ionide extension :> Paket Install
+//Run command 
+//  > Paket Install
 
 //Run with F#
 // Alt + / 
@@ -13,6 +14,7 @@
 #load "packages/FsLab/FsLab.fsx"
 open Deedle
 
-Seq.initInfinite (fun x -> x,x) 
-|> Seq.take 100 
+Seq.init 100 (fun x -> x, x * x) 
+|> Seq.filter (fun (_,y) -> y % 3 = 1)
+|> Seq.take 10
 |> series

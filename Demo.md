@@ -1,53 +1,51 @@
 # Self Improvement with Data Science and F#
-- Intro, Dan Keller
+- Hi Everyone, my name is Dan Keller
 
-- A look at some of the open source,easy to use, community offerings to get a better handle on different sources of data.
-- Demo I wanted to give
+- This is going to be a look at some of the open source,easy to use, community offerings to get a better handle on different sources of data
+- It's the demo I wanted to give several months ago
 - It mainly focuses on FsLab, which itself is a collection of awesome Data Science Libraries
-- How I used it to take a better look at work I was doing and expose some stories from the data
-- No functional prior to 2 years ago. Took up as a way to expand my knowledge.
-
+- And How I used it to take a better look at work I was doing and expose some stories from the data
 ### Why F#
- Choose F# because it was on the same platform.
-- This way, I didn't need to learn new core libraries, frameworks, package managers, it all was the same environment.
-- Now, in my F# I try to focus on functional first, like the language. But, in working with data, you have to be flexible because people are going to try to throw curve balls, you might need to play around a bit. 
+- Ok, I know, I know why F# 
+ - I started in FP about 2 years ago. 
+ - This kind of stuff was just hidden away from me.
+ - I didn't even know it existed.
+ - There is something about google, where it will only give you topics you've already seen. If you search for politics, it will only give you information based on views it's already been able to determine from your search practices
+ - I Took up as a way to expand my knowledge.
+  And was able to choose F# because it was on the same platform as we were already using
+- This way, I didn't need to learn new core libraries, frameworks, package managers, it all was the same environment. 
+- What I've found regarding using it with data is you have to be flexible. 
 - It's not always, A -> B
-- Theres a glib statement by the F# community which basically comes from most F# programs vs their equivalent C# are 40-60% less code with less depenencies, less complex dependencies. So you can either add more features in, or save on dev + maintenance costs
+- F# gives you the opportunity to easily play with stuff, get it done correctly and quickly to move onto other emerging patterns
 
 
-# That one app
+# Most of my apps
+- Now, I said I work in government. The boring side, corporate services.
 - Most apps, especially line of business, what i normally deal in are simple
   - There no real complicated domain
   - There is no business logic
   - It's just some huge side effecting page. Page after page of direct database access or update. 
 
-
-- So I'm sure everyone has that one app.
+#That one app
+- But there is this one app. I'm sure everyone has that one app.
 - It's not pretty, it's not complete. You might've even re-done the app several times.
-   
-
-<!--
-- Any Math majors, accountants or statisticians in the crowd?
-  - Ok, so you guys already know how to look at some data and get a good idea on how things are going
-- Me, I'll have to poke around a bit. I'm a line of business guy. 
- - I'm all about workflows. Statistics was 10-12 years ago-->
-
-- Now, There are some awesome things built in or with F#
+- Before I show you my one app, I must give you a warning
+- There are some awesome things do exist built with F#
   - Project Springfield, Whitebox Fuzzing for security testing
-- Jet.com, trying to be an amazon competitor. Walmart bought Jet.com for it's F# pricing engine for 3 Billion
+- Jet.com, trying to be an amazon competitor. Walmart bought Jet.com for it's F# pricing engine last year
 ![The Louvre in Abu Dhabi](http://www.thenational.ae/storyimage/AB/20160615/ARTICLE/160619414/AR/0/AR-160619414.jpg)
 
 # Greytide
-- My website, isn't the greatest thing written in F#. Also until recently, it wasn't.
-
+- My website, isn't the greatest thing written in F#. Also until last october, it wasn't.
+- Yea, it's bad
 - How to make it better
   - I still have great thoughts into basically making it into a Kanban board of some sort, but things other than css & javascript things have peeked my interests
-  - My first part of learning comes from the F# Organization's Mentorship program. I was paired with one of the authors of Expert F#, now it wasn't F#'s inventor, but if he's paired with him, he must be good right?
+  <!--- My first part of learning comes from the F# Organization's Mentorship program. I was paired with one of the authors of Expert F#, now it wasn't F#'s inventor, but if he's paired with him, he must be good right?
   - Was a six week program, some of the mentees have different projects, some work on the F# Compiler, some are just learning the basics.
-  - I aimed somewhere in the middle and learned a lightweight F# combinator webserver to replace all that C#. Even a straight port of C#'s logic removed -140k lines of packages, ect)
+  - I aimed somewhere in the middle and learned a lightweight F# combinator webserver to replace all that C#. Even a straight port of C#'s logic removed -140k lines of packages, ect)-->
 
 - http://greytide.azurewebsites.net
-- Basically a time tracker. 
+- Basically a time tracker. How long does it take me to do certain tasks
 
 
 - The goal wasn't creating an awesome program for everyone, or just tracking my progress I could've used almost anything, it was for learning.
@@ -56,7 +54,7 @@
 - I was using stuff like 
 - D3 drawing library, Angular, C# Web Api, Copying some code from a SPA course
 - Browser storage, local caching, Then NoSQL, Cloud providers
-- It was 2 years ago, in client javascript land, 2 years might as well be 2 eons ago
+- But that was 2 years ago, in javascript land, 2 years might as well be 2 eons ago
 - Now, back to my site. It's pretty bad on the surface. 
  - Most of what I was trying to learn was in the backend.
 
@@ -65,6 +63,7 @@
 
 
 # VsCode/Ionide
+- Before we get into the real 
 - [VsCode](https://code.visualstudio.com/) Cross platform, lightweight, free
 - [Ionide](http://ionide.io/) plugin for FSharp awesomeness
 - Paket, F# package manager. Nuget only goes so far, paket does nuget
