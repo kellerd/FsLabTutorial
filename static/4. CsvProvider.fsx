@@ -1,7 +1,7 @@
-#load "packages/FsLab/FsLab.fsx"
+#load "../packages/FsLab/FsLab.fsx"
 open Deedle
 open FSharp.Data
-let [<Literal>] dataFile = __SOURCE_DIRECTORY__ + """\data\Data.csv"""
+let [<Literal>] dataFile = __SOURCE_DIRECTORY__ + """/../data/Data.csv"""
 //Create CsvProvider type Person for the data file
 type People = CsvProvider<dataFile>
 //Load the People from the data file

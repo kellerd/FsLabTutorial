@@ -1,10 +1,10 @@
-#load "packages/FsLab/FsLab.fsx"
+#load "../packages/FsLab/FsLab.fsx"
 open Deedle
 open FSharp.Data
 
-let [<Literal>] StatesFile = __SOURCE_DIRECTORY__ + """\data\v3\States.json"""
+let [<Literal>] StatesFile = __SOURCE_DIRECTORY__ + """/../data/v3/States.json"""
 // let statesFile = """http://greytide.azurewebsites.net/tide/v1/Models/"""
-let [<Literal>] ModelsFile = __SOURCE_DIRECTORY__ + """\data\v3\Models.json"""
+let [<Literal>] ModelsFile = __SOURCE_DIRECTORY__ + """/../data/v3/Models.json"""
 //let modelsFile = http://greytide.azurewebsites.net/tide/v1/Models/
 
 type States = JsonProvider<StatesFile>
@@ -52,15 +52,10 @@ let widgets = [ 3; 8; 12; 15; 19; 18; 18; 20; ]
 let sprockets = [ 5; 4; 6; 7; 12; 9; 5; 6; ]
 
 //plot widgets
-R.plot widgets
 //plot widgets,sprockets 
-R.plot (widgets,sprockets) 
 //barplot
-R.barplot(widgets)
 //hist
-R.hist(sprockets)
 //pie
-R.pie(widgets)
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -72,13 +67,12 @@ open RProvider.caret
 open RProvider.stats
 //Find associations of two of data's columns [["Complete";"Points"; ]] , store as xs
 let xs = data.Columns.[["Complete";"Points"; ]] 
-//clusters from kmeans where x=xs, centers = 3
-let clusters = R.kmeans(x=xs, centers=3)
-//centers from marshalling clusters AsList, get the ["centers"] index
-let centers = clusters.AsList().["centers"]
-//Create tags for each faction, additional classifying data 
+//Tags for each plot type
 let factors = R.as_factor(data.Columns.["Factions"])
-//Create an R featurePlot with x = xs, y = factors
+//TODO:
+//clusters from kmeans where x=xs, centers = 3
+//centers from marshalling clusters AsList, get the ["centers"] index
+
 
 //Can call it two ways, default
 R.featurePlot(x = xs, y = factors, plot = "pairs")
