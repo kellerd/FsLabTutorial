@@ -11,10 +11,11 @@
 //Run with F#
 // Alt + / 
 // Select text - Alt + Enter
-#load "packages/FsLab/FsLab.fsx"
+#load "../packages/FsLab/FsLab.fsx"
 open Deedle
 
-Seq.init 100 (fun x -> x, x * x) 
-|> Seq.filter (fun (_,y) -> y % 3 = 1)
-|> Seq.take 10
+let intToChar c = (int 'A') + c |> char
+
+Seq.init 26 intToChar
+|> Seq.indexed
 |> series

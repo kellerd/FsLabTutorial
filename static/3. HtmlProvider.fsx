@@ -1,8 +1,8 @@
 
-#load "packages/FsLab/FsLab.fsx"
+#load "../packages/FsLab/FsLab.fsx"
 open Deedle
 open FSharp.Data
-let [<Literal>] HtmlFile = __SOURCE_DIRECTORY__ + """\data\Comparison_of_programming_languages.html"""
+let [<Literal>] HtmlFile = __SOURCE_DIRECTORY__ + """/../data/Comparison_of_programming_languages.html"""
 //let [<Literal>] HtmlFile = @"https://en.wikipedia.org/wiki/Comparison_of_programming_languages"
 //Make a Languages type using HtmlProvider with HtmlFile
 type Languages = HtmlProvider<HtmlFile>
