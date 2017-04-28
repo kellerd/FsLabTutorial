@@ -50,7 +50,7 @@ open RProvider.graphics
 open RProvider.``base``
 let widgets = [ 3; 8; 12; 15; 19; 18; 18; 20; ]
 let sprockets = [ 5; 4; 6; 7; 12; 9; 5; 6; ]
-
+//TODO:
 //plot widgets
 //plot widgets,sprockets 
 //barplot
@@ -72,7 +72,8 @@ let factors = R.as_factor(data.Columns.["Factions"])
 //TODO:
 //clusters from kmeans where x=xs, centers = 3
 //centers from marshalling clusters AsList, get the ["centers"] index
-
+let clusters = R.kmeans(x=xs,centers=3)
+let centers = clusters.AsList().["centers"]
 
 //Can call it two ways, default
 R.featurePlot(x = xs, y = factors, plot = "pairs")
@@ -96,7 +97,7 @@ fpSettings
 |> Map.add "x" (box centers)
 |> R.featurePlot
 
-//Show names of the groups
+//Show names of the groups, extract some raw data from R
 let modelVect = clusters.AsList().["cluster"].AsVector()
 let names = modelVect.Names
 let values : int [] = modelVect.GetValue()

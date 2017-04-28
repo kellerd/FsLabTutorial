@@ -102,7 +102,7 @@ fpSettings
 |> Map.add "x" (box centers)
 |> R.featurePlot
 
-//Show names of the groups
+//Show names of the groups, extract some raw data from R
 let modelVect = clusters.AsList().["cluster"].AsVector()
 let names = modelVect.Names
 let values : int [] = modelVect.GetValue()
