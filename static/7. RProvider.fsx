@@ -115,5 +115,5 @@ let pairs =
     Array.zip names values
     |> Array.groupBy snd
     |> Array.sortBy fst
-    |> Array.map (fun (g,vs) -> vs |> Array.map (fun (k,v) -> keyedModels.[k]) |> Array.countBy id)
+    |> Array.map (fun (g,vs) -> vs |> Array.map (fun (k,v) -> keyedModels.[k]) |> Array.countBy id |> Array.take 10)
 

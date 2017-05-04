@@ -2,9 +2,9 @@
 open Deedle
 open FSharp.Data
 
-let [<Literal>] StatesFile = __SOURCE_DIRECTORY__ + """/../data/v1/States.json"""
+let [<Literal>] StatesFile = __SOURCE_DIRECTORY__ + """/../data/v3/States.json"""
 // let [<Literal>] StatesFile = """http://greytide.azurewebsites.net/tide/v1/States"""
-let [<Literal>] ModelsFile = __SOURCE_DIRECTORY__ + """/../data/v1/Models.json"""
+let [<Literal>] ModelsFile = __SOURCE_DIRECTORY__ + """/../data/v3/Models.json"""
 //let [<Literal>] ModelsFile = http://greytide.azurewebsites.net/tide/v1/Models
 
 type States = JsonProvider<StatesFile>
@@ -52,7 +52,7 @@ let widgets = [ 3; 8; 12; 15; 19; 18; 18; 20; ]
 let sprockets = [ 5; 4; 6; 7; 12; 9; 5; 6; ]
 //TODO:
 //plot widgets
-//plot widgets,sprockets 
+//plot (widgets,sprockets)
 //barplot
 //hist
 //pie
@@ -60,10 +60,10 @@ let sprockets = [ 5; 4; 6; 7; 12; 9; 5; 6; ]
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 //How to install packages
-//open RProvider.utils
-//R.install_packages("caret")
-//R.install_packages("zoo")
-open RProvider.caret
+// open RProvider.utils
+// R.install_packages("caret")
+// R.install_packages("zoo")
+open RProvider.caret //For featurePlot
 open RProvider.stats
 //Find associations of two of data's columns [["Complete";"Points"; ]] , store as xs
 let xs = data.Columns.[["Complete";"Points"; ]] 
@@ -72,12 +72,10 @@ let factors = R.as_factor(data.Columns.["Factions"])
 //TODO:
 //clusters from kmeans where x=xs, centers = 3
 
-
 let centers = clusters.AsList().["centers"]
 
 //Can call it two ways, default
 R.featurePlot(x = xs, y = factors, plot = "pairs")
-
 let fpSettings = 
     Map.ofList
         [ "y",box factors; 
@@ -110,5 +108,5 @@ let pairs =
     Array.zip names values
     |> Array.groupBy snd
     |> Array.sortBy fst
-    |> Array.map (fun (g,vs) -> vs |> Array.map (fun (k,v) -> keyedModels.[k]) |> Array.countBy id)
+    |> Array.map (fun (g,vs) -> vs |> Array.map (fun (k,v) -> keyedModels.[k]) |> Array.countBy id |> Array.take 10)
 
