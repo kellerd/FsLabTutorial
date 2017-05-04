@@ -6,8 +6,8 @@ open Deedle
 open FSharp.Data
 open XPlot.GoogleCharts
 open XPlot.GoogleCharts.Deedle
-//let [<Literal>] StatesFile = """http://greytide.azurewebsites.net/tide/v3/States/"""
-//let [<Literal>] ModelsFile = """http://greytide.azurewebsites.net/tide/v3/Models/"""
+//let [<Literal>] StatesFile = """http://greytide.azurewebsites.net/tide/v3/States"""
+//let [<Literal>] ModelsFile = """http://greytide.azurewebsites.net/tide/v3/Models"""
 let [<Literal>] StatesFile = __SOURCE_DIRECTORY__ + """/../data/v1/States.json"""  
 let [<Literal>] ModelsFile = __SOURCE_DIRECTORY__ + """/../data/v1/Models.json"""  
 type States = JsonProvider<StatesFile>
@@ -45,7 +45,7 @@ let days =
 
  // Array of events. (I did X on this day, I did Y on this day)
  // Event, Date part of the event, How many points
-let data =
+let workPerDay =
     models
     |> Array.collect (fun model -> 
         model.States
@@ -71,7 +71,7 @@ let normalizeWork state points =
 //Are some months better?
 //Take the data, which is (state,(date,points)
 let firstDate = DateTime.Parse("1/1/2015")
-data 
+workPerDay 
     |> Array.map (fun (state,(date,points))-> date, normalizeWork state points)
     |> Array.append days
     |> Series.ofValues 
@@ -103,7 +103,7 @@ let expandingSumRateOfChange _ series =
 
 //How much culminated work that is in each state 
 let results = 
-    data
+    workPerDay
     |> Array.map (fun (state,(date,points)) -> state,(date,float points))
     |> Array.sortBy(fun (state,(date,points)) -> date)
     |> Series.ofValues

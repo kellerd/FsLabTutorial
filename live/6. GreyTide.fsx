@@ -6,8 +6,8 @@ open Deedle
 open FSharp.Data
 open XPlot.GoogleCharts
 open XPlot.GoogleCharts.Deedle
-//let [<Literal>] StatesFile = """http://greytide.azurewebsites.net/tide/v3/States/"""
-//let [<Literal>] ModelsFile = """http://greytide.azurewebsites.net/tide/v3/Models/"""
+//let [<Literal>] StatesFile = """http://greytide.azurewebsites.net/tide/v3/States"""
+//let [<Literal>] ModelsFile = """http://greytide.azurewebsites.net/tide/v3/Models"""
 let [<Literal>] StatesFile = __SOURCE_DIRECTORY__ + """/../data/v1/States.json"""  
 let [<Literal>] ModelsFile = __SOURCE_DIRECTORY__ + """/../data/v1/Models.json"""  
 type States = JsonProvider<StatesFile>
@@ -36,7 +36,6 @@ let transitionValues  (model:Models.Root) (state:Models.State,newState:States.Ev
 // Chart with legend set to true
 
 
-
 // Step 1, clean up data
 // Some blank days, don't want line charts to be all over the place
 //For ease, start at 1/1/2015
@@ -44,13 +43,14 @@ let firstDate = DateTime.Parse "1/1/2015"
 let days = 
     //TODO:
     //Make an infite sequence using (addDays initialized with firstDate)
-    //Only take values that are before today
+    //Only take while values that are beforeToday
     //Initialize with 0.'s
     //Convert to an array
 
+
  // Array of events. (I did X on this day, I did Y on this day)
  // Event, Date part of the event, How many points
-let data =
+let workPerDay =
     models
     |> Array.collect (fun model -> 
         model.States
@@ -72,10 +72,18 @@ let normalizeWork state points =
         | _ -> 0.0
     weight * (float points) 
 
+
+//fun string -> fun (int -> float)
+// let normalizeWork = 
+    // fun state -> 
+        //fun points ->
+            //return (weight * (points as float))
+
+
 //Try to get a plot of how much work is done in certain periods. 
 //Are some months better?
 //Take the data, which is (state,(date,points))
-data 
+workPerDay 
     //TODO:
     //Format the data for the chart, by mapping the array to  date, normalizeWork state points
     //Append days to the array
@@ -110,7 +118,6 @@ let expandingSumRateOfChange _ series =
 
 //How much culminated work that is in each state 
 let results = 
-    data
     //TODO:
     //Map the array of (state,(date,points)) and cast points to float
     //Sort by date
@@ -118,7 +125,7 @@ let results =
     //Group and aggregate into, byName,  expandingSumRateOfChange
     //Create a Frame of the columns
     //Fill missing values in the forward direction
-    //Fill missing values with 0
+    //Fill remaining missing values (at the top) with 0
 
 //Create some trend lines
 let trendlines = [| Trendline(labelInLegend="Painted", color="#FF0000") 
@@ -132,10 +139,9 @@ let options = Options (
                 trendlines=trendlines) 
 
                 
-//results
-results 
+results
 //TODO:
-//Take a slice of the Frame columns "Painted";"Primed";"Completed"
+//sliceCols of the Frame columns "Painted";"Primed";"Completed"
 //Make an Area Chart
 //Add Chart options
 

@@ -2,10 +2,10 @@
 open Deedle
 open FSharp.Data
 
-let [<Literal>] StatesFile = __SOURCE_DIRECTORY__ + """/../data/v3/States.json"""
-// let statesFile = """http://greytide.azurewebsites.net/tide/v1/Models/"""
-let [<Literal>] ModelsFile = __SOURCE_DIRECTORY__ + """/../data/v3/Models.json"""
-//let modelsFile = http://greytide.azurewebsites.net/tide/v1/Models/
+let [<Literal>] StatesFile = __SOURCE_DIRECTORY__ + """/../data/v1/States.json"""
+// let [<Literal>] StatesFile = """http://greytide.azurewebsites.net/tide/v1/States"""
+let [<Literal>] ModelsFile = __SOURCE_DIRECTORY__ + """/../data/v1/Models.json"""
+//let [<Literal>] ModelsFile = http://greytide.azurewebsites.net/tide/v1/Models
 
 type States = JsonProvider<StatesFile>
 type Models = JsonProvider<ModelsFile>
@@ -71,8 +71,8 @@ let xs = data.Columns.[["Complete";"Points"; ]]
 let factors = R.as_factor(data.Columns.["Factions"])
 //TODO:
 //clusters from kmeans where x=xs, centers = 3
-//centers from marshalling clusters AsList, get the ["centers"] index
-let clusters = R.kmeans(x=xs,centers=3)
+
+
 let centers = clusters.AsList().["centers"]
 
 //Can call it two ways, default

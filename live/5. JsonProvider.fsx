@@ -10,7 +10,7 @@ open FSharp.Data
 //Fix samples
 //Fix person 
 
-//let [<Literal>] StatesFile = """http://greytide.azurewebsites.net/tide/v3/States/"""
+//let [<Literal>] StatesFile = """http://greytide.azurewebsites.net/tide/v3/States"""
 let [<Literal>] StatesFile = __SOURCE_DIRECTORY__ + """/../data/v1/States.json"""  
 type States = JsonProvider<StatesFile>
 let states = States.Load(StatesFile)
