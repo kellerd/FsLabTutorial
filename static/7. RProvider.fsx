@@ -3,9 +3,9 @@ open Deedle
 open FSharp.Data
 
 let [<Literal>] StatesFile = __SOURCE_DIRECTORY__ + """/../data/v3/States.json"""
-// let statesFile = """http://greytide.azurewebsites.net/tide/v1/Models/"""
+//let [<Literal>] StatesFile = """http://greytide.azurewebsites.net/tide/v1/States"""
 let [<Literal>] ModelsFile = __SOURCE_DIRECTORY__ + """/../data/v3/Models.json"""
-//let modelsFile = http://greytide.azurewebsites.net/tide/v1/Models/
+//let [<Literal>] ModelsFile = http://greytide.azurewebsites.net/tide/v1/Models
 
 type States = JsonProvider<StatesFile>
 type Models = JsonProvider<ModelsFile>
@@ -102,7 +102,7 @@ fpSettings
 |> Map.add "x" (box centers)
 |> R.featurePlot
 
-//Show names of the groups
+//Show names of the groups, extract some raw data from R
 let modelVect = clusters.AsList().["cluster"].AsVector()
 let names = modelVect.Names
 let values : int [] = modelVect.GetValue()
@@ -115,5 +115,5 @@ let pairs =
     Array.zip names values
     |> Array.groupBy snd
     |> Array.sortBy fst
-    |> Array.map (fun (g,vs) -> vs |> Array.map (fun (k,v) -> keyedModels.[k]) |> Array.countBy id)
+    |> Array.map (fun (g,vs) -> vs |> Array.map (fun (k,v) -> keyedModels.[k]) |> Array.countBy id |> Array.take 10)
 
