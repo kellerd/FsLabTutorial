@@ -126,7 +126,7 @@
 - Kmeans
  - Centers (Heroes, Big dudes, Infantry)
  - Get some data out of R, some models 
-# Lessons
+# Lessons & Results
 - Spike in work from Airbrush
 - Way industry is going. Marketing is working?
 - Whats missing - Time tracking.

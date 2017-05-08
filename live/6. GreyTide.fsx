@@ -1,3 +1,6 @@
+//The meat.
+//Hey dan, explain hobby now please.
+//Pick a topic/hoby for learning
 #load "../packages/FsLab/FsLab.fsx"
 #load "Helpers.fsx"
 open Helpers
@@ -58,8 +61,7 @@ let workPerDay =
             transition.Name
             |> transitionToEvent  //Present tense to past tense (Paint,Prime,Assemble) to (Painted,Primed,Assembled)
             |> Option.map (fun event -> event,(transition.Date.Date, model.Points)))
-            |> Array.sortBy (fun (_,(date,_)) -> date)
-    )
+            |> Array.sortBy (fun (_,(date,_)) -> date))
 
 //Not all work is created equal
 let normalizeWork state points = 

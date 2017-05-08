@@ -14,14 +14,14 @@ let models = Models.Load(ModelsFile)
 // State to how complete it is.
 let percentDone state  = 
     match state with
+    | "NOS" | "Startup" | "Buy New" -> 0.0
     | "Dislike" -> 0.15
     | "Assembled" -> 0.25 
     | "Prime"  -> 0.30 
-    | "Varnished" -> 0.99 
-    | "Paint" -> 0.90
     | "Weather" -> 0.95 
+    | "Paint" -> 0.90
+    | "Varnished" -> 0.99 
     | "Complete" -> 1.0
-    | "NOS" | "Startup" | "Buy New" -> 0.0
     | x ->  0.0
 
 let mapFactions faction =
