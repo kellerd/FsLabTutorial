@@ -15,7 +15,8 @@
   And was able to choose F# because it was on the same platform as we were already using
 - This way, I didn't need to learn new core libraries, frameworks, package managers, it all was the same environment. 
 - If I was in a Java shop, chances are I'd be giving a Scala talk right about now.
-- Right tool for the right job.
+- Right tool for the right job. In my last talk I had mentioned it's multiparadigm and the reason is the language designer is always picking practical things. If you have a problem X and it can be solved by tool Y without learning some abstract concept, it'll make it.
+- Coinicentally, the problem he was solving with OO and imperative features was that C# existed.
 
 # Most of my apps
 - Now, I said I work in government. The boring side, corporate services.
@@ -59,7 +60,7 @@
 - But that was 2 years ago, in javascript land, 2 years might as well be 2 eons ago
 - Now, back to my site. It's pretty bad on the surface. 
  - Most of what I was trying to learn was in the backend.
-#Value for me
+# Value for me
 - What it does have, is data. That's the money.
    - If only you could work with it a little better, massage it, there might be some hidden answer
 

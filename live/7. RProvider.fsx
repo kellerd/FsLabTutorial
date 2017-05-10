@@ -57,6 +57,22 @@ let sprockets = [ 5; 4; 6; 7; 12; 9; 5; 6; ]
 //hist
 //pie
 
+// require(grDevices) 
+// require(graphics)
+// par(bg = "gray")
+// pie(rep(1,24), col = rainbow(24), radius = 0.9)
+
+// open RProvider.graphics
+// open RProvider.grDevices
+// R.par(dict [
+//             "bg",       "gray"         |> box
+//            ])
+// R.pie(dict [
+//              "x",        R.rep(1,24)   |> box
+//              "col",      R.rainbow(24) |> box 
+//              "radius",   0.9           |> box
+//            ])
+
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 //How to install packages
@@ -65,6 +81,7 @@ let sprockets = [ 5; 4; 6; 7; 12; 9; 5; 6; ]
 // R.install_packages("zoo")
 open RProvider.caret //For featurePlot
 open RProvider.stats
+
 //Find associations of two of data's columns [["Complete";"Points"; ]] , store as xs
 let xs = data.Columns.[["Complete";"Points"; ]] 
 //Tags for each plot type

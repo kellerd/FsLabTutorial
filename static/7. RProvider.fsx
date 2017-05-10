@@ -62,6 +62,27 @@ R.hist(sprockets)
 //pie
 R.pie(widgets)
 
+R.pie(widgets)
+
+
+// require(grDevices) 
+// require(graphics)
+// par(bg = "gray")
+// pie(rep(1,24), col = rainbow(24), radius = 0.9)
+
+// open RProvider.graphics
+// open RProvider.grDevices
+// R.par(dict [
+//             "bg",       "gray"         |> box
+//            ])
+// R.pie(dict [
+//              "x",        R.rep(1,24)   |> box
+//              "col",      R.rainbow(24) |> box 
+//              "radius",   0.9           |> box
+//            ])
+
+
+
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 //How to install packages
