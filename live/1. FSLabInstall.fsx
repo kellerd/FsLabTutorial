@@ -13,7 +13,7 @@
 // Select text - Alt + Enter
 #load "../packages/FsLab/FsLab.fsx"
 open Deedle
-let intToChar c = (int 'A') + c |> char
+let intToChar x = (int 'A') + x |> char
 
 Seq.init 26 intToChar
 |> Seq.indexed

@@ -8,8 +8,8 @@ open XPlot.GoogleCharts
 open XPlot.GoogleCharts.Deedle
 //let [<Literal>] StatesFile = """http://greytide.azurewebsites.net/tide/v3/States"""
 //let [<Literal>] ModelsFile = """http://greytide.azurewebsites.net/tide/v3/Models"""
-let [<Literal>] StatesFile = __SOURCE_DIRECTORY__ + """/../data/v1/States.json"""  
-let [<Literal>] ModelsFile = __SOURCE_DIRECTORY__ + """/../data/v1/Models.json"""  
+let [<Literal>] StatesFile = __SOURCE_DIRECTORY__ + """/../data/v3/States.json"""  
+let [<Literal>] ModelsFile = __SOURCE_DIRECTORY__ + """/../data/v3/Models.json"""  
 type States = JsonProvider<StatesFile>
 let states = States.Load(StatesFile)
 type Models = JsonProvider<ModelsFile>
@@ -125,7 +125,7 @@ let options = Options (
 
                 
 results 
-|> Frame.sliceCols ["Painted";"Primed";"Completed"] 
+|> Frame.sliceCols ["Assembled";"Primed";"Completed"] 
 |> Chart.Area
 |> Chart.WithOptions options 
 

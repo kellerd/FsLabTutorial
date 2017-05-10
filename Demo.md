@@ -1,7 +1,7 @@
 # Self Improvement with Data Science and F#
 - Hi Everyone, my name is Dan Keller
-
-- This is going to be a look at some of the open source,easy to use, community offerings to get a better handle on different sources of data
+- I work at Transport Canada. I know goverment, ick.  Ok, ok, its not all that bad.
+- This is going to be a look at some of the open source,easy to use, community offerings in F# to get a better handle on different sources of data
 - It's the demo I wanted to give several months ago
 - It mainly focuses on FsLab, which itself is a collection of awesome Data Science Libraries
 - And How I used it to take a better look at work I was doing and expose some stories from the data
@@ -11,32 +11,32 @@
  - This kind of stuff was just hidden away from me.
  - I didn't even know it existed.
  - There is something about google, where it will only give you topics you've already seen. If you search for politics, it will only give you information based on views it's already been able to determine from your search practices
- - I Took up as a way to expand my knowledge.
+ - I somehow stumbled on it and took up as a way to expand my knowledge.
   And was able to choose F# because it was on the same platform as we were already using
 - This way, I didn't need to learn new core libraries, frameworks, package managers, it all was the same environment. 
-- What I've found regarding using it with data is you have to be flexible. 
-- It's not always, A -> B
-- F# gives you the opportunity to easily play with stuff, get it done correctly and quickly to move onto other emerging patterns
-
+- If I was in a Java shop, chances are I'd be giving a Scala talk right about now.
+- Right tool for the right job. In my last talk I had mentioned it's multiparadigm and the reason is the language designer is always picking practical things. If you have a problem X and it can be solved by tool Y without learning some abstract concept, it'll make it.
+- Coinicentally, the problem he was solving with OO and imperative features was that C# existed.
 
 # Most of my apps
 - Now, I said I work in government. The boring side, corporate services.
 - Most apps, especially line of business, what i normally deal in are simple
   - There no real complicated domain
   - There is no business logic
-  - It's just some huge side effecting page. Page after page of direct database access or update. 
+  - It's just some huge side effecting page after page of direct database access or update. 
 
 #That one app
 - But there is this one app. I'm sure everyone has that one app.
 - It's not pretty, it's not complete. You might've even re-done the app several times.
 - Before I show you my one app, I must give you a warning
+# Disclaimer
 - There are some awesome things do exist built with F#
   - Project Springfield, Whitebox Fuzzing for security testing
 - Jet.com, trying to be an amazon competitor. Walmart bought Jet.com for it's F# pricing engine last year
 ![The Louvre in Abu Dhabi](http://www.thenational.ae/storyimage/AB/20160615/ARTICLE/160619414/AR/0/AR-160619414.jpg)
 
 # Greytide
-- My website, isn't the greatest thing written in F#. Also until last october, it wasn't.
+- My website, isn't the greatest thing written in F#. Also until last october, it wasn't.  I'll thank the F# foundation for that motivation.
 - Yea, it's bad
 - How to make it better
   - I still have great thoughts into basically making it into a Kanban board of some sort, but things other than css & javascript things have peeked my interests
@@ -45,11 +45,14 @@
   - I aimed somewhere in the middle and learned a lightweight F# combinator webserver to replace all that C#. Even a straight port of C#'s logic removed -140k lines of packages, ect)-->
 
 - http://greytide.azurewebsites.net
-- Basically a time tracker. How long does it take me to do certain tasks
 
-
+#I know pretty bad
 - The goal wasn't creating an awesome program for everyone, or just tracking my progress I could've used almost anything, it was for learning.
- - Use it for testing different frameworks, tools. Things i'm not allowed to use at work, but may in the future.
+#Stretch goals
+- I know where I'd want to take it.
+- Basically Trello with some personal features
+# Goals
+ - What I really used for was testing different frameworks, tools. Things i'm not allowed to use at work, but may in the future.
 - Trying to do the practical thing, expand knowledge, make opinions on technology it's what we're paid for.
 - I was using stuff like 
 - D3 drawing library, Angular, C# Web Api, Copying some code from a SPA course
@@ -57,7 +60,7 @@
 - But that was 2 years ago, in javascript land, 2 years might as well be 2 eons ago
 - Now, back to my site. It's pretty bad on the surface. 
  - Most of what I was trying to learn was in the backend.
-
+# Value for me
 - What it does have, is data. That's the money.
    - If only you could work with it a little better, massage it, there might be some hidden answer
 
