@@ -125,7 +125,7 @@ let options = Options (
 
                 
 results 
-|> Frame.sliceCols ["Painted";"Primed";"Completed"] 
+|> Frame.sliceCols ["Assembled";"Primed";"Completed"] 
 |> Chart.Area
 |> Chart.WithOptions options 
 
