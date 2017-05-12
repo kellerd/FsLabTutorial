@@ -3,7 +3,7 @@ open Deedle
 open FSharp.Data
 
 let [<Literal>] StatesFile = __SOURCE_DIRECTORY__ + """/../data/v3/States.json"""
-// let [<Literal>] StatesFile = """http://greytide.azurewebsites.net/tide/v1/States"""
+//let [<Literal>] StatesFile = """http://greytide.azurewebsites.net/tide/v1/States"""
 let [<Literal>] ModelsFile = __SOURCE_DIRECTORY__ + """/../data/v3/Models.json"""
 //let [<Literal>] ModelsFile = http://greytide.azurewebsites.net/tide/v1/Models
 
@@ -14,14 +14,14 @@ let models = Models.Load(ModelsFile)
 // State to how complete it is.
 let percentDone state  = 
     match state with
-    | "NOS" | "Startup" | "Buy New" -> 0.0
     | "Dislike" -> 0.15
     | "Assembled" -> 0.25 
     | "Prime"  -> 0.30 
-    | "Weather" -> 0.95 
-    | "Paint" -> 0.90
     | "Varnished" -> 0.99 
+    | "Paint" -> 0.90
+    | "Weather" -> 0.95 
     | "Complete" -> 1.0
+    | "NOS" | "Startup" | "Buy New" -> 0.0
     | x ->  0.0
 
 let mapFactions faction =
@@ -48,14 +48,15 @@ open RDotNet
 open RProvider
 open RProvider.graphics
 open RProvider.``base``
-let widgets = [ 3; 8; 12; 15; 19; 18; 18; 20; ]
-let sprockets = [ 5; 4; 6; 7; 12; 9; 5; 6; ]
-//TODO:
-//plot widgets
-//plot (widgets,sprockets)
+
+let graphdata = [ for x in 0. .. 0.1 .. 10. -> abs( x * cos x ) ]
+R.plot graphdata
 //barplot
+R.barplot(graphdata)
 //hist
+R.hist(graphdata)
 //pie
+R.pie(graphdata)
 
 // require(grDevices) 
 // require(graphics)
@@ -64,14 +65,15 @@ let sprockets = [ 5; 4; 6; 7; 12; 9; 5; 6; ]
 
 // open RProvider.graphics
 // open RProvider.grDevices
-// R.par(dict [
-//             "bg",       "gray"         |> box
-//            ])
-// R.pie(dict [
+
+// R.par(namedParams ["bg","gray"])
+// R.pie(namedParams [
 //              "x",        R.rep(1,24)   |> box
 //              "col",      R.rainbow(24) |> box 
 //              "radius",   0.9           |> box
 //            ])
+
+
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -79,37 +81,39 @@ let sprockets = [ 5; 4; 6; 7; 12; 9; 5; 6; ]
 // open RProvider.utils
 // R.install_packages("caret")
 // R.install_packages("zoo")
-open RProvider.caret //For featurePlot
+open RProvider.caret
 open RProvider.stats
 
+let (==>) name value = name, box value
 //Find associations of two of data's columns [["Complete";"Points"; ]] , store as xs
 let xs = data.Columns.[["Complete";"Points"; ]] 
-//Tags for each plot type
-let factors = R.as_factor(data.Columns.["Factions"])
-//TODO:
 //clusters from kmeans where x=xs, centers = 3
 
+
+//centers from marshalling clusters AsList, get the ["centers"] index
 let centers = clusters.AsList().["centers"]
+//Create tags for each faction, additional classifying data 
+let factors = R.as_factor(data.Columns.["Factions"])
+//Create an R featurePlot with x = xs, y = factors
 
 //Can call it two ways, default
 R.featurePlot(x = xs, y = factors, plot = "pairs")
-let fpSettings = 
-    Map.ofList
-        [ "y",box factors; 
-          "plot",box "pairs";
-          "auto.key", box (R.list(Map.ofList ["columns",box 3])) ]
 
 //Or with custom list of parameters, R is a little loose with what is available
 //These are our clusters of items based on how complete they are
-fpSettings 
-|> Map.add "x" (box xs)
+[ "x" ==> xs
+  "y" ==> factors
+  "plot"     ==> "pairs"
+  "auto.key" ==> ( namedParams ["columns" ==> 3] |> R.list ) ]
 |> R.featurePlot
 //These are the main centers.
 //Big MC's who are 1/2 complete
 //Little tyranids infantry who are mostly complete
 //Medium space marine models, tanks, elites
-fpSettings 
-|> Map.add "x" (box centers)
+[ "x" ==> centers
+  "y" ==> factors
+  "plot"     ==> "pairs"
+  "auto.key" ==> ( namedParams ["columns" ==> 3] |> R.list ) ]
 |> R.featurePlot
 
 //Show names of the groups, extract some raw data from R

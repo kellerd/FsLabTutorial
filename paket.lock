@@ -1,6 +1,5 @@
 NUGET
   remote: https://www.nuget.org/api/v2
-  specs:
     Deedle (1.2.5)
     Deedle.RPlugin (1.2.5)
       Deedle (>= 1.2.5)

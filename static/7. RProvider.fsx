@@ -48,22 +48,15 @@ open RDotNet
 open RProvider
 open RProvider.graphics
 open RProvider.``base``
-let widgets = [ 3; 8; 12; 15; 19; 18; 18; 20; ]
-let sprockets = [ 5; 4; 6; 7; 12; 9; 5; 6; ]
 
-//plot widgets
-R.plot widgets
-//plot widgets,sprockets 
-R.plot (widgets,sprockets) 
+let graphdata = [ for x in 0. .. 0.1 .. 10. -> abs( x * cos x ) ]
+R.plot graphdata
 //barplot
-R.barplot(widgets)
+R.barplot(graphdata)
 //hist
-R.hist(sprockets)
+R.hist(graphdata)
 //pie
-R.pie(widgets)
-
-R.pie(widgets)
-
+R.pie(graphdata)
 
 // require(grDevices) 
 // require(graphics)
@@ -72,10 +65,9 @@ R.pie(widgets)
 
 // open RProvider.graphics
 // open RProvider.grDevices
-// R.par(dict [
-//             "bg",       "gray"         |> box
-//            ])
-// R.pie(dict [
+
+// R.par(namedParams ["bg","gray"])
+// R.pie(namedParams [
 //              "x",        R.rep(1,24)   |> box
 //              "col",      R.rainbow(24) |> box 
 //              "radius",   0.9           |> box
@@ -86,11 +78,13 @@ R.pie(widgets)
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 //How to install packages
-//open RProvider.utils
-//R.install_packages("caret")
-//R.install_packages("zoo")
+// open RProvider.utils
+// R.install_packages("caret")
+// R.install_packages("zoo")
 open RProvider.caret
 open RProvider.stats
+
+let (==>) name value = name, box value
 //Find associations of two of data's columns [["Complete";"Points"; ]] , store as xs
 let xs = data.Columns.[["Complete";"Points"; ]] 
 //clusters from kmeans where x=xs, centers = 3
@@ -104,23 +98,21 @@ let factors = R.as_factor(data.Columns.["Factions"])
 //Can call it two ways, default
 R.featurePlot(x = xs, y = factors, plot = "pairs")
 
-let fpSettings = 
-    Map.ofList
-        [ "y",box factors; 
-          "plot",box "pairs";
-          "auto.key", box (R.list(Map.ofList ["columns",box 3])) ]
-
 //Or with custom list of parameters, R is a little loose with what is available
 //These are our clusters of items based on how complete they are
-fpSettings 
-|> Map.add "x" (box xs)
+[ "x" ==> xs
+  "y" ==> factors
+  "plot"     ==> "pairs"
+  "auto.key" ==> ( namedParams ["columns" ==> 3] |> R.list ) ]
 |> R.featurePlot
 //These are the main centers.
 //Big MC's who are 1/2 complete
 //Little tyranids infantry who are mostly complete
 //Medium space marine models, tanks, elites
-fpSettings 
-|> Map.add "x" (box centers)
+[ "x" ==> centers
+  "y" ==> factors
+  "plot"     ==> "pairs"
+  "auto.key" ==> ( namedParams ["columns" ==> 3] |> R.list ) ]
 |> R.featurePlot
 
 //Show names of the groups, extract some raw data from R
