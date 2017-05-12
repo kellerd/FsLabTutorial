@@ -1,7 +1,6 @@
 #I "../packages/FSharp.Charting"
 #load "FSharp.Charting.fsx"
 #load "EventEx.fsx"
-//#r "../packages/FSharp.Control.AsyncSeq/lib/net45/FSharp.Control.AsyncSeq.dll"
 
 open System
 open System.Drawing
