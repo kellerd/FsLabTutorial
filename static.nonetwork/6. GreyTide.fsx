@@ -7,10 +7,10 @@ open FSharp.Data
 open FSharp.Charting
 open FSharp.Charting.FsLabExtensions
 
-//let [<Literal>] StatesFile = """http://greytide.azurewebsites.net/tide/v3/States"""
-//let [<Literal>] ModelsFile = """http://greytide.azurewebsites.net/tide/v3/Models"""
-let [<Literal>] StatesFile = __SOURCE_DIRECTORY__ + """/../data/v3/States.json"""  
-let [<Literal>] ModelsFile = __SOURCE_DIRECTORY__ + """/../data/v3/Models.json"""  
+//let [<Literal>] StatesFile = @"http://greytide.azurewebsites.net/tide/v3/States"
+//let [<Literal>] ModelsFile = @"http://greytide.azurewebsites.net/tide/v3/Models"
+let [<Literal>] StatesFile = __SOURCE_DIRECTORY__ + @"/../data/v3/States.json"  
+let [<Literal>] ModelsFile = __SOURCE_DIRECTORY__ + @"/../data/v3/Models.json"  
 type States = JsonProvider<StatesFile>
 let states = States.Load(StatesFile)
 type Models = JsonProvider<ModelsFile>

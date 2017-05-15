@@ -1,7 +1,7 @@
 #load "../packages/FsLab/FsLab.fsx"
 open Deedle
 open FSharp.Data
-//Make type from sample """{"name":"Dan", "language":"F#"}"""
+//Make type from sample @"{"name":"Dan", "language":"F#"}"
 type Person = JsonProvider<"""[{"name":"Dan", "language":"F#"},{"name":"Brian"}]""">
 //Get sample from type
 let samples = Person.GetSamples()
@@ -11,8 +11,8 @@ let samples = Person.GetSamples()
 //Fix person 
 let person = samples |> Seq.head |> fun p -> p.Name, p.Language
 
-//let [<Literal>] StatesFile = """http://greytide.azurewebsites.net/tide/v3/States"""
-let [<Literal>] StatesFile = __SOURCE_DIRECTORY__ + """/../data/v1/States.json"""  
+//let [<Literal>] StatesFile = @"http://greytide.azurewebsites.net/tide/v3/States"
+let [<Literal>] StatesFile = __SOURCE_DIRECTORY__ + @"/../data/v1/States.json"  
 type States = JsonProvider<StatesFile>
 let states = States.Load(StatesFile)
 //Change version to V2

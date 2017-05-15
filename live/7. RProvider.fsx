@@ -2,9 +2,9 @@
 open Deedle
 open FSharp.Data
 
-let [<Literal>] StatesFile = __SOURCE_DIRECTORY__ + """/../data/v3/States.json"""
-//let [<Literal>] StatesFile = """http://greytide.azurewebsites.net/tide/v1/States"""
-let [<Literal>] ModelsFile = __SOURCE_DIRECTORY__ + """/../data/v3/Models.json"""
+let [<Literal>] StatesFile = __SOURCE_DIRECTORY__ + @"/../data/v3/States.json"
+//let [<Literal>] StatesFile = @"http://greytide.azurewebsites.net/tide/v1/States"
+let [<Literal>] ModelsFile = __SOURCE_DIRECTORY__ + @"/../data/v3/Models.json"
 //let [<Literal>] ModelsFile = http://greytide.azurewebsites.net/tide/v1/Models
 
 type States = JsonProvider<StatesFile>
@@ -43,6 +43,8 @@ let points =
 let data = Frame(["Complete";"Points";"Factions"],
                  [completeness;points;factions])
 
+
+
 // Demo some RProvider
 open RDotNet
 open RProvider
@@ -58,6 +60,7 @@ R.hist(graphdata)
 //pie
 R.pie(graphdata)
 
+
 // require(grDevices) 
 // require(graphics)
 // par(bg = "gray")
@@ -65,12 +68,13 @@ R.pie(graphdata)
 
 // open RProvider.graphics
 // open RProvider.grDevices
+// let (==>) name value = name, box value
 
 // R.par(namedParams ["bg","gray"])
 // R.pie(namedParams [
-//              "x",        R.rep(1,24)   |> box
-//              "col",      R.rainbow(24) |> box 
-//              "radius",   0.9           |> box
+//              "x"      ==> R.rep(1,24)
+//              "col"    ==> R.rainbow(24)
+//              "radius" ==> 0.9        
 //            ])
 
 
@@ -84,12 +88,10 @@ R.pie(graphdata)
 open RProvider.caret
 open RProvider.stats
 
-let (==>) name value = name, box value
 //Find associations of two of data's columns [["Complete";"Points"; ]] , store as xs
 let xs = data.Columns.[["Complete";"Points"; ]] 
 //clusters from kmeans where x=xs, centers = 3
-
-
+let clusters = R.kmeans(x=xs, centers=3)
 //centers from marshalling clusters AsList, get the ["centers"] index
 let centers = clusters.AsList().["centers"]
 //Create tags for each faction, additional classifying data 
@@ -101,19 +103,27 @@ R.featurePlot(x = xs, y = factors, plot = "pairs")
 
 //Or with custom list of parameters, R is a little loose with what is available
 //These are our clusters of items based on how complete they are
-[ "x" ==> xs
-  "y" ==> factors
-  "plot"     ==> "pairs"
-  "auto.key" ==> ( namedParams ["columns" ==> 3] |> R.list ) ]
+
+let (==>) name value = name, box value
+
+namedParams
+    [ "x"    ==> xs
+      "y"    ==> factors
+      "plot" ==> "pairs"
+      "cex"  ==> 2
+      "auto.key" ==> ( namedParams ["columns" ==> 3] |> R.list ) ]
 |> R.featurePlot
 //These are the main centers.
 //Big MC's who are 1/2 complete
 //Little tyranids infantry who are mostly complete
 //Medium space marine models, tanks, elites
-[ "x" ==> centers
-  "y" ==> factors
-  "plot"     ==> "pairs"
-  "auto.key" ==> ( namedParams ["columns" ==> 3] |> R.list ) ]
+namedParams 
+  [ "x"     ==> centers
+    "y"     ==> factors
+    "plot"  ==> "pairs"
+    "cex"   ==> 2
+    "pch"   ==> 20
+    "auto.key" ==> ( namedParams ["columns" ==> 3; "cex"   ==> 1.5] |> R.list ) ]
 |> R.featurePlot
 
 //Show names of the groups, extract some raw data from R

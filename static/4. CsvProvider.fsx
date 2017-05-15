@@ -1,7 +1,7 @@
 #load "../packages/FsLab/FsLab.fsx"
 open Deedle
 open FSharp.Data
-let [<Literal>] dataFile = __SOURCE_DIRECTORY__ + """/../data/v1/Data.csv"""
+let [<Literal>] dataFile = __SOURCE_DIRECTORY__ + @"/../data/v1/Data.csv"
 type People = CsvProvider<dataFile>
 let people = People.Load(dataFile)
 
@@ -21,4 +21,4 @@ let newFile =
                             fax = "333.333.3333", 
                             title = "Developer" )])
                             
-newFile.Save(path=__SOURCE_DIRECTORY__ + """/../data/v3/Data.csv""")                      
+newFile.Save(path=__SOURCE_DIRECTORY__ + @"/../data/v3/Data.csv")                      
