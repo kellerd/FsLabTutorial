@@ -5,7 +5,7 @@
 - It's the demo I wanted to give several months ago
 - It mainly focuses on FsLab, which itself is a collection of awesome Data Science Libraries
 - And How I used it to take a better look at work I was doing and expose some stories from the data
-### Why F#
+<!--### Why F#
 - Ok, I know, I know why F# 
  - I started in FP about 2 years ago. 
  - This kind of stuff was just hidden away from me.
@@ -16,7 +16,7 @@
 - This way, I didn't need to learn new core libraries, frameworks, package managers, it all was the same environment. 
 - If I was in a Java shop, chances are I'd be giving a Scala talk right about now.
 - Right tool for the right job. In my last talk I had mentioned it's multiparadigm and the reason is the language designer is always picking practical things. If you have a problem X and it can be solved by tool Y without learning some abstract concept, it'll make it.
-- Coinicentally, the problem he was solving with OO and imperative features was that C# existed.
+- Coinicentally, the problem he was solving with OO and imperative features was that C# existed.-->
 
 # Most of my apps
 - Now, I said I work in government. The boring side, corporate services.
