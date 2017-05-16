@@ -53,16 +53,23 @@
     <Content Include="Google.DataTable.Net.Wrapper.XML">
       <Paket>True</Paket>
     </Content>
-    <None Include="Tutorial.fsx" />
-    <None Include="GreyTide.fsx" />
-    <None Include="1. FSLabInstall.fsx" />
-    <None Include="3. HtmlProvider.fsx" />
-    <None Include="4. CsvProvider.fsx" />
-    <None Include="5. JsonProvider.fsx" />
-    <None Include="6. GreyTide.fsx" />
-    <None Include="RTutorial.fsx" />
-    <None Include="X. World Bank.fsx" />
-    <None Include="7. RProvider.fsx" />
+    <None Include="static\1. FSLabInstall.fsx" />
+    <None Include="static\2. World Bank.fsx" />
+    <None Include="static\3. HtmlProvider.fsx" />
+    <None Include="static\4. CsvProvider.fsx" />
+    <None Include="static\5. JsonProvider.fsx" />
+    <None Include="static\6. GreyTide.fsx" />
+    <None Include="static\7. RProvider.fsx" />
+    <None Include="static\8. Events.fsx" />
+    <None Include="live\1. FSLabInstall.fsx" />
+    <None Include="live\2. World Bank.fsx" />
+    <None Include="live\3. HtmlProvider.fsx" />
+    <None Include="live\4. CsvProvider.fsx" />
+    <None Include="live\5. JsonProvider.fsx" />
+    <None Include="live\6. GreyTide.fsx" />
+    <None Include="live\7. RProvider.fsx" />
+    <None Include="live\8. Events.fsx" />
+
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <Choose>
