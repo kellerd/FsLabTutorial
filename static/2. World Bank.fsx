@@ -19,9 +19,9 @@ let result =
     |> Chart.Line
     |> Chart.WithLegend true
 // let populationChange = 
-//     let ``2015`` = series [for c in wb.Countries -> c.Name, c.Indicators.``Population, total``.[2015] ]
-//     let ``2014`` = series [for c in wb.Countries -> c.Name, c.Indicators.``Population, total``.[2014] ]
-//     (``2015`` - ``2014``) / ``2015`` * 100.0
+//     let ``2015 Population total`` = series [for c in wb.Countries -> c.Name, c.Indicators.``Population, total``.[2015] ]
+//     let ``2014 Population total`` = series [for c in wb.Countries -> c.Name, c.Indicators.``Population, total``.[2014] ]
+//     (``2015 Population total`` - ``2014 Population total``) / ``2015 Population total`` * 100.0
 //     |> abs
 // Chart.Geo populationChange
 
